@@ -1,7 +1,7 @@
 package com.observationclass.service;
 
 import com.observationclass.entity.Account;
-import com.observationclass.repository.AccountReqository;
+import com.observationclass.repository.AccountRepository;
 import com.observationclass.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class AccountService implements UserDetailsService {
     @Autowired
-    private AccountReqository accountRepository;
+    private AccountRepository accountRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Account account = accountRepository.findByEmail(email).get();

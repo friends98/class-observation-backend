@@ -13,7 +13,6 @@ import java.util.List;
 public class UserPrincipal implements UserDetails {
     @Autowired
     private Account account;
-
     @Autowired
     public UserPrincipal(Account account){
         this.account=account;
@@ -27,7 +26,6 @@ public class UserPrincipal implements UserDetails {
         });
         return authorities;
     }
-
     @Override
     public String getPassword() {
         return null;

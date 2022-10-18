@@ -31,9 +31,11 @@ public class Account {
     @Column(name = "email")
     private String email;
 
+/*
     @Column(name = "password")
     private String password;
 
+*/
     @Column(name = "created_at")
     private Integer createdAt;
 
@@ -44,7 +46,8 @@ public class Account {
     private Integer deleteFlag;
 
     @ManyToMany(
-            fetch = FetchType.LAZY)
+            //bi loi o day
+            fetch=FetchType.EAGER)
     @JoinTable(
             name = "account_role",
             joinColumns = {@JoinColumn(name = "account_id")},
