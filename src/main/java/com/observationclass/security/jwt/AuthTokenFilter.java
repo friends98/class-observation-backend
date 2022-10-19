@@ -1,6 +1,7 @@
 package com.observationclass.security.jwt;
 
 import com.auth0.jwt.JWT;
+import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.security.UserPrincipal;
@@ -32,7 +33,6 @@ public class AuthTokenFilter extends BasicAuthenticationFilter {
     public AuthTokenFilter(AuthenticationManager authenticationManager, AccountRepository accountReqository) {
         super(authenticationManager);
         this.accountRepository=accountReqository;
-
     }
 
 
@@ -49,14 +49,14 @@ public class AuthTokenFilter extends BasicAuthenticationFilter {
                         .getSubject();
 
                 if (email != null) {
-                    Account account = accountRepository.findByEmail(email).get();
+                    Account account = accountRepository.findByEmailAndDeleteFlag(email, Constants.DELETE_NONE).get();
                     UserPrincipal principal = new UserPrincipal(account);
                     UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null, principal.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
         }catch(Exception e){
-            System.out.println(e.getMessage()+"hhhhhhhhhhhhhhhhhh");
+            //System.out.println(e.getMessage()+"hhkhjhhn");
             logger.error("Cannot set user authentication: " + e);
         }
         filterChain.doFilter(request, response);

@@ -19,31 +19,13 @@ import java.util.Set;
         @UniqueConstraint(columnNames = "user_name"),
         @UniqueConstraint(columnNames = "email")
 })
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+public class Account extends CommonEntity{
 
     @Column(name = "user_name")
     private String userName;
 
     @Column(name = "email")
     private String email;
-
-/*
-    @Column(name = "password")
-    private String password;
-
-*/
-    @Column(name = "created_at")
-    private Integer createdAt;
-
-    @Column(name = "updated_at")
-    private Integer updatedAt;
-
-    @Column(name = "delete_flag")
-    private Integer deleteFlag;
 
     @ManyToMany(
             //bi loi o day
@@ -53,5 +35,6 @@ public class Account {
             joinColumns = {@JoinColumn(name = "account_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
+
     private Set<Role> roles = new HashSet<>();
 }
