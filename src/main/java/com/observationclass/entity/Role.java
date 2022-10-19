@@ -1,5 +1,6 @@
 package com.observationclass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.observationclass.model.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,9 +28,8 @@ public class Role {
     @Column(name="role_name")
     private ERole roleName;
 
-
-
-    @Column(name="delete_flag")
-    private Integer deleteFlag;
+    @ManyToMany(mappedBy = "roles",cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Account> accounts =new HashSet<>();
 
 }

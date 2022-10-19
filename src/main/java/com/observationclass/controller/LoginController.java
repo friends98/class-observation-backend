@@ -32,11 +32,12 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
-
+    @Value("${jwt.SecretKey}")
+    private String jwtSecret;
     @Autowired
     private AccountService accountService;
-    @Autowired
-    private TokenService tokenService;
+   /* @Autowired
+    private TokenService tokenService;*/
     @Autowired
     private PasswordEncoder passwordEncoder;
     private String email;
@@ -50,12 +51,9 @@ public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
-
-
-    //http://localhost:8080/social/google
     @PostMapping("/google")
     public ResponseEntity<AuthResponse> loginWithGoogle(@Valid @RequestBody TokenRequest token) throws Exception {
-        System.out.println("day la token :" + token);
+        //System.out.println("day la SECRET :" + jwtSecret);
         NetHttpTransport transport = new NetHttpTransport();
         JacksonFactory factory = JacksonFactory.getDefaultInstance();
         GoogleIdTokenVerifier.Builder ver =
@@ -65,26 +63,13 @@ public class LoginController {
         GoogleIdToken.Payload payload = googleIdToken.getPayload();
         email = payload.getEmail();
         Account account = new Account();
-
         if (accountService.checkEmailExist(email)) {
-            System.out.println("ok nhe!!!!");
             account = accountService.getAccountByEmail(email);
-            System.out.println("id cua login :" + account.getId() + "    " + account.getEmail());
-            for (Role r : account.getRoles()) {
-                System.out.println(r.getRoleName());
-            }
         }
-        LoginRequest loginRequest = new LoginRequest();
+        /*LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(account.getEmail());
-        loginRequest.setPassword(password);
-        System.out.println("day la pass :" + password);
-        System.out.println("day la respone: ");
-        String userName=account.getUserName();
-        System.out.println("sao lai ko chay den day");
-       //Authentication authentication =authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),loginRequest.getPassword()));
-        String accessToken=jwtTokenUtils.generateJwtToken(userName);
-        System.out.println("access token : "+accessToken);
-
+        loginRequest.setPassword(password);*/
+        String accessToken=jwtTokenUtils.generateJwtToken(email);
         return ResponseEntity.ok().body(new AuthResponse(account.getUserName(),accessToken,account.getRoles()));
     }
 }

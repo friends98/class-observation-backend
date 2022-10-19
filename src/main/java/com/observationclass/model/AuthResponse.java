@@ -3,8 +3,6 @@ package com.observationclass.model;
 import com.observationclass.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Set;
 

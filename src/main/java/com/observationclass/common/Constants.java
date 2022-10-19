@@ -11,6 +11,10 @@ public class Constants {
     public static final String RECORD_ALREADY_EXISTS = "The record %s already exists";
 
 
+    public static final Integer DELETE_TRUE = 1;
+    public static final Integer DELETE_NONE = 0;
+
+
     // http code
     public static final String HTTP_CODE_200 = "200";
     public static final String HTTP_CODE_400 = "400";

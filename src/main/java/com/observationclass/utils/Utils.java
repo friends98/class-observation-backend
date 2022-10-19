@@ -14,4 +14,9 @@ public class Utils {
         LocalDateTime localDateTimeWithoutTimeZone = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime();
         return Timestamp.valueOf(localDateTimeWithoutTimeZone);
     }
+    public static Timestamp resultTimestamp() {
+        // HoanNNC update common remove time zone
+        LocalDateTime localDateTimeWithoutTimeZone = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime();
+        return Timestamp.valueOf(localDateTimeWithoutTimeZone);
+    }
 }
