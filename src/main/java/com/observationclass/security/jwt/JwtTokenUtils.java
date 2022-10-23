@@ -47,7 +47,7 @@ public class JwtTokenUtils {
         return false;
     }
     public void getEmailFromToken(){
-        System.out.println("thu hien xinh gai");
+        System.out.println("");
     }
 
 }

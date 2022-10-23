@@ -44,7 +44,4 @@ public class Constants {
     public static final String VALIDATE_MAX_SIZE_128 = "No more than 128 characters";
 
 
-
-
-
 }

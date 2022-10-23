@@ -63,6 +63,7 @@ public class LoginController {
         GoogleIdToken.Payload payload = googleIdToken.getPayload();
         email = payload.getEmail();
         Account account = new Account();
+        System.out.println(accountService.checkEmailExist(email)+"lajlglkjakl");
         if (accountService.checkEmailExist(email)) {
             account = accountService.getAccountByEmail(email);
         }
