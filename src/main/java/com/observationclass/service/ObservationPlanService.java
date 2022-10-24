@@ -8,6 +8,7 @@ import com.observationclass.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,25 @@ public class ObservationPlanService {
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.CREATE_SUCCESS,null);
 
     }
+    public ApiResponse updateObservationPlan(ObservationPlanRequest observationPlanRequest){
+        Optional<ObservationPlan> opObservationPlan =observationPlanRepository.findById(observationPlanRequest.getId());
+        if(!opObservationPlan.isEmpty()){
+            Optional<Semester> opSemester =semesterRepository.findById(observationPlanRequest.getSemesterId());
+            Optional<Campus> opCampus =campusRepository.findById(observationPlanRequest.getCampusId());
+            Optional<Department> opDepartment =departmentRepository.findById(observationPlanRequest.getDepartmentId());
+            Optional<Account> opAccount =accountRepository.findById(observationPlanRequest.getAccountId());
+            if (opCampus != null && opSemester != null && opDepartment != null && opAccount != null) {
+                opObservationPlan.get().setCampus(opCampus.get());
+                opObservationPlan.get().setDepartment(opDepartment.get());
+                opObservationPlan.get().setSemester(opSemester.get());
+                opObservationPlan.get().setAccount(opAccount.get());
+            }
+            opObservationPlan.get().setPlanStatus(observationPlanRequest.getPlanStatus());
+            opObservationPlan.get().setUpdate();
+            observationPlanRepository.save(opObservationPlan.get());
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.UPDATE_SUCCESS,null);
+    }
 
     public void setObservationPlan(ObservationPlan observationPlan, ObservationPlanRequest observationPlanRequest) {
         Optional<Campus> opCampus = campusRepository.findById(observationPlanRequest.getCampusId());
@@ -47,7 +67,8 @@ public class ObservationPlanService {
             observationPlan.setDepartment(opDepartment.get());
             observationPlan.setSemester(opSemester.get());
             observationPlan.setAccount(opAccount.get());
-            observationPlan.setPlanStatus(0);
+            observationPlan.setPlanStatus(observationPlanRequest.getPlanStatus()==null?Constants.NEW_PLAN
+                    :observationPlanRequest.getPlanStatus());
         }
     }
 }

@@ -6,6 +6,7 @@ public class Constants {
     public static final String ERROR = "Error get infomation record";
     public static final String DELETE_SUCCESS = "Delete record success";
     public static final String CREATE_SUCCESS = "Create record success";
+    public static final String UPDATE_SUCCESS = "Update record success";
     public static final String RECORD_DOES_NOT_EXIST = "The record does not exist";
     public static final String FIELD_INVALID = "Some field invalid";
     public static final String RECORD_ALREADY_EXISTS = "The record %s already exists";
@@ -13,6 +14,11 @@ public class Constants {
 
     public static final Integer DELETE_TRUE = 1;
     public static final Integer DELETE_NONE = 0;
+
+    // status
+    public static final Integer NEW_PLAN = 0;
+    public static final Integer APPROVE = 1;
+    public static final Integer REJECT = 2;
 
 
     // http code

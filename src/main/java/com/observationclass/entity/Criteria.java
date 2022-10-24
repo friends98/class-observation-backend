@@ -14,15 +14,12 @@ import javax.persistence.*;
 @Table(name="criteria")
 
 @Entity
-public class Criteria {
+public class Criteria extends CommonEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Integer id;
+
     @Column(name="criteria_code")
-    private String code;
+    private String criteriaCode;
 
     @Column(name="criteria_name")
-    private String name;
+    private String criteriaName;
 }
