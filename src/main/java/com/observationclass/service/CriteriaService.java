@@ -20,6 +20,7 @@ public class CriteriaService {
         Criteria criteria = new Criteria();
         setCritera(criteria,criteriaRequest);
         criteria.setCreate();
+        System.out.println("aaaaaa"+criteria.getId());
         criteriaRepository.save(criteria);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
@@ -38,7 +39,7 @@ public class CriteriaService {
         if (!opCriteria.isEmpty()) {
             opCriteria.get().setDeleteFlag(Constants.DELETE_TRUE);
         }
-        opCriteria.get().setUpdate();
+       
         criteriaRepository.save(opCriteria.get());
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.DELETE_SUCCESS,null);
     }
@@ -48,4 +49,5 @@ public class CriteriaService {
         criteria.setCriteriaCode("TC"+(sizeCriteria+1));
         criteria.setCriteriaName(criteriaRequest.getCriteriaName());
     }
+
 }
