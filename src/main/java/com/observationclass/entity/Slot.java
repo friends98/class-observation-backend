@@ -1,5 +1,6 @@
 package com.observationclass.entity;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +12,18 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="semester")
+@Table(name="slot")
 @Entity
-public class Semester {
-
+public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
-    @Column(name="semester_name")
-    private String semesterName;
+
+    @Column(name="slot_name")
+    private String slotName;
+
+
+
+
 }

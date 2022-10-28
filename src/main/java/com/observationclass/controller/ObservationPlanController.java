@@ -27,10 +27,15 @@ public class ObservationPlanController {
         System.out.println(observationPlanRequest.getId()+"day la id");
         return ResponseEntity.ok().body(observationPlanService.createObservationPlan(observationPlanRequest));
     }
-
     @PostMapping("/updateObservationPlan")
-    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanRequest observationPlanRequest) {
+    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanRequest observationPlanRequest){
+        System.out.println(observationPlanRequest.getId()+"day la id");
         return ResponseEntity.ok().body(observationPlanService.updateObservationPlan(observationPlanRequest));
     }
+
+//    @PostMapping("/updateObservationPlan")
+//    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanRequest observationPlanRequest) {
+//        return ResponseEntity.ok().body(observationPlanService.updateObservationPlan(observationPlanRequest));
+//    }
 
 }
