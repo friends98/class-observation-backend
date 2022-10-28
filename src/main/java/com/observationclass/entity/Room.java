@@ -11,14 +11,14 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="semester")
+@Table(name="room")
 @Entity
-public class Semester {
-
+public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Integer id;
-    @Column(name="semester_name")
-    private String semesterName;
+
+    @Column(name="room_name")
+    private String room_name;
 }
