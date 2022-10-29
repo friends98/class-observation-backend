@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -53,8 +56,8 @@ public class ObservationPlanService {
             observationPlan.setDepartment(opDepartment.get());
             observationPlan.setPlanStatus(observationPlanRequest.getPlanStatus() == null ? Constants.NEW_PLAN
                     : observationPlanRequest.getPlanStatus());
-
             observationPlanRepository.save(observationPlan);
+            List<ObservationSlot> lstObservationSlot = new ArrayList<>();
             observationPlanRequest.getObservationSlotsRequest().forEach(r -> {
                 ObservationSlot observationSlot = new ObservationSlot();
                 observationSlot.setSlot(slotRepository.findById(r.getSlotId()).get());
@@ -66,8 +69,11 @@ public class ObservationPlanService {
                 observationSlot.setAccount2(accountRepository.findById(r.getAccountId2()).get());
                 observationSlot.setReason(r.getReason());
                 observationSlot.setObservationPlan(observationPlan);
-                observationSlotRepository.save(observationSlot);
+                lstObservationSlot.add(observationSlot);
+                //observationSlotRepository.save(observationSlot);
             });
+            Collections.reverse(lstObservationSlot);
+            observationSlotRepository.saveAll(lstObservationSlot);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

@@ -22,10 +22,7 @@ import java.io.IOException;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 @Service
-
 public class AuthTokenFilter extends BasicAuthenticationFilter {
-
-
     @Autowired
     private JwtTokenUtils jwtTokenUtils;
     @Autowired
@@ -34,29 +31,24 @@ public class AuthTokenFilter extends BasicAuthenticationFilter {
         super(authenticationManager);
         this.accountRepository=accountReqository;
     }
-
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             String token = request.getHeader("Authorization")
                     .replace("Bearer ","");
             if(token!=null){
-               // jwtTokenUtils.getEmailFromToken();
-                String email = JWT.require(HMAC512("classobservation"))
+                String accountId = JWT.require(HMAC512("classobservation"))
                         .build()
                         .verify(token)
                         .getSubject();
-
-                if (email != null) {
-                    Account account = accountRepository.findByEmailAndDeleteFlag(email, Constants.DELETE_NONE).get();
+                if (!accountId.isEmpty()) {
+                    Account account = accountRepository.findByIdAndDeleteFlag(Integer.parseInt(accountId), Constants.DELETE_NONE).get();
                     UserPrincipal principal = new UserPrincipal(account);
-                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null, principal.getAuthorities());
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(account.getEmail(), null, principal.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(auth);
                 }
             }
         }catch(Exception e){
-            //System.out.println(e.getMessage()+"hhkhjhhn");
             logger.error("Cannot set user authentication: " + e);
         }
         filterChain.doFilter(request, response);
@@ -69,5 +61,4 @@ public class AuthTokenFilter extends BasicAuthenticationFilter {
         }
         return null;
     }
-
 }

@@ -14,5 +14,7 @@ public class AccountRequest {
     private String userName;
     @NotNull
     private String email;
+    @NotNull
+    private Integer campusId;
     private Set<Role> roles = new HashSet<>();
 }
