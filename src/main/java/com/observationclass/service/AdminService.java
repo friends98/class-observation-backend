@@ -5,10 +5,13 @@ import com.observationclass.entity.Account;
 import com.observationclass.entity.Role;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
+import com.observationclass.model.response.AccountResponse;
 import com.observationclass.repository.AccountRepository;
+import com.observationclass.repository.dao.AccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,11 +21,31 @@ public class AdminService {
     private AccountRepository accountRepository;
 
     @Autowired
+    private AccountDao accountDao;
+
+    @Autowired
     private RoleService roleService;
 
     public ApiResponse getListAccount() {
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.CREATE_SUCCESS,accountRepository.findAllByDeleteFlag(Constants.DELETE_NONE));
     }
+    public ApiResponse getAccountByRole(Integer roleId){
+        List<AccountResponse> listAccountByRole = accountDao.listAccountByRole(roleId);
+        if(listAccountByRole.isEmpty()){
+
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listAccountByRole);
+    }
+    public ApiResponse deleteAccountById(Integer id){
+        Account account =accountRepository.findByIdAndDeleteFlag(id,Constants.DELETE_NONE).get();
+        if(account!=null){
+            account.setDeleteFlag(Constants.DELETE_TRUE);
+        }
+        accountRepository.save(account);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, null);
+    }
+
+
     public ApiResponse updateAccount(AccountRequest accountRequest){
         String email =accountRequest.getEmail();
         Account account =accountRepository.findByEmailAndDeleteFlag(email,Constants.DELETE_NONE).get();

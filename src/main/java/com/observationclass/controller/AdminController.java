@@ -26,4 +26,13 @@ public class AdminController {
     public ResponseEntity<ApiResponse> createOrUpdateAccount(@RequestBody @Valid AccountRequest accountRequest) {
         return ResponseEntity.ok().body(adminService.updateAccount(accountRequest));
     }
+    @PostMapping("/deleteAccount")
+    public ResponseEntity<ApiResponse> deleteAccount(@RequestParam(name="id") Integer id) {
+        return ResponseEntity.ok().body(adminService.deleteAccountById(id));
+    }
+
+    @GetMapping("/listAccountRole")
+    public ResponseEntity<ApiResponse> listAcccountByRole(@RequestParam(name="roleId") Integer roleId){
+        return ResponseEntity.ok().body(adminService.getAccountByRole(roleId));
+    }
 }
