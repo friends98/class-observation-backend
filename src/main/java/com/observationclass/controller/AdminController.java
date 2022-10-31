@@ -2,11 +2,9 @@ package com.observationclass.controller;
 
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
-import com.observationclass.service.AccountService;
 import com.observationclass.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +30,7 @@ public class AdminController {
     }
 
     @GetMapping("/listAccountRole")
-    public ResponseEntity<ApiResponse> listAcccountByRole(@RequestParam(name="roleId") Integer roleId){
+    public ResponseEntity<ApiResponse> listAccountByRole(@RequestParam(name="roleId") Integer roleId){
         return ResponseEntity.ok().body(adminService.getAccountByRole(roleId));
     }
 }
