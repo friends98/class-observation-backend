@@ -20,8 +20,12 @@ public class AdminController {
         return ResponseEntity.ok().body(adminService.getListAccount());
     }
 
-    @PostMapping("/createOrUpdate")
-    public ResponseEntity<ApiResponse> createOrUpdateAccount(@RequestBody @Valid AccountRequest accountRequest) {
+    @PostMapping("/newAccount")
+    public ResponseEntity<ApiResponse> addNewAccount(@RequestBody @Valid AccountRequest accountRequest) {
+        return ResponseEntity.ok().body(adminService.addNewAccount(accountRequest));
+    }
+    @PostMapping("/editAccount")
+    public ResponseEntity<ApiResponse> editAccount(@RequestBody @Valid AccountRequest accountRequest) {
         return ResponseEntity.ok().body(adminService.updateAccount(accountRequest));
     }
     @PostMapping("/deleteAccount")
