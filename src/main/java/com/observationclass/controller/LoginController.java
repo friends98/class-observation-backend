@@ -54,8 +54,12 @@ public class LoginController {
         if (accountService.checkEmailExist(email)) {
             account = accountService.getAccountByEmail(email);
         }
-        String accessToken=jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
-        return ResponseEntity.ok().body(new AuthResponse(account.getUserName(),accessToken,account.getRoles()));
+        if(account.getCampusId()==token.getCampusId()){
+            String accessToken=jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
+            return ResponseEntity.ok().body(new AuthResponse(account.getUserName(),accessToken,account.getCampusId(),account.getRoles()));
+        }
+        return ResponseEntity.ok().body(new AuthResponse(null,null,null,null));
+
     }
 }
 

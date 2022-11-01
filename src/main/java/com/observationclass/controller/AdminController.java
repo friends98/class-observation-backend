@@ -2,11 +2,9 @@ package com.observationclass.controller;
 
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
-import com.observationclass.service.AccountService;
 import com.observationclass.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,8 +20,21 @@ public class AdminController {
         return ResponseEntity.ok().body(adminService.getListAccount());
     }
 
-    @PostMapping("/createOrUpdate")
-    public ResponseEntity<ApiResponse> createOrUpdateAccount(@RequestBody @Valid AccountRequest accountRequest) {
+    @PostMapping("/newAccount")
+    public ResponseEntity<ApiResponse> addNewAccount(@RequestBody @Valid AccountRequest accountRequest) {
+        return ResponseEntity.ok().body(adminService.addNewAccount(accountRequest));
+    }
+    @PostMapping("/editAccount")
+    public ResponseEntity<ApiResponse> editAccount(@RequestBody @Valid AccountRequest accountRequest) {
         return ResponseEntity.ok().body(adminService.updateAccount(accountRequest));
+    }
+    @PostMapping("/deleteAccount")
+    public ResponseEntity<ApiResponse> deleteAccount(@RequestParam(name="id") Integer id) {
+        return ResponseEntity.ok().body(adminService.deleteAccountById(id));
+    }
+
+    @GetMapping("/listAccountRole")
+    public ResponseEntity<ApiResponse> listAccountByRole(@RequestParam(name="roleId") Integer roleId){
+        return ResponseEntity.ok().body(adminService.getAccountByRole(roleId));
     }
 }

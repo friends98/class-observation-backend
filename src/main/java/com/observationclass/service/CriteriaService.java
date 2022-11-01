@@ -20,7 +20,6 @@ public class CriteriaService {
         Criteria criteria = new Criteria();
         setCritera(criteria,criteriaRequest);
         criteria.setCreate();
-        System.out.println("aaaaaa"+criteria.getId());
         criteriaRepository.save(criteria);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
