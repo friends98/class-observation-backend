@@ -4,6 +4,8 @@ import com.observationclass.common.Constants;
 import com.observationclass.entity.*;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.ObservationPlanRequest;
+import com.observationclass.model.request.ObservationPlanUpdateRequest;
+import com.observationclass.model.request.SearchObservationPlanRequest;
 import com.observationclass.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,7 +82,35 @@ public class ObservationPlanService {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
-    public ApiResponse updateObservationPlan(ObservationPlanRequest observationPlanRequest){
+    public ApiResponse updateObservationPlan(ObservationPlanUpdateRequest observationPlanUpdateRequest) {
+        Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(observationPlanUpdateRequest.getId());
+        Optional<Semester> optionalSemester = semesterRepository.findById(observationPlanUpdateRequest.getSemesterId());
+        Optional<Department> opDepartment =departmentRepository.findById(observationPlanUpdateRequest.getDepartmentId());
+        Optional<Campus> opCampus = campusRepository.findById(observationPlanUpdateRequest.getCampusId());
+        // loi khong tim thay id
+        if(opObservationPlan.get().getPlanStatus()==0 || opObservationPlan.get().getPlanStatus()==2){
+            opObservationPlan.get().setSemester(optionalSemester.get());
+            opObservationPlan.get().setDepartment(opDepartment.get());
+            opObservationPlan.get().setCampus(opCampus.get());
+        }
+        observationPlanRepository.save(opObservationPlan.get());
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
+    }
+    public ApiResponse deleteObservationPlan(Integer id){
+        Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(id);
+        if(opObservationPlan.isPresent()){
+            opObservationPlan.get().setDeleteFlag(Constants.DELETE_TRUE);
+        }
+        observationPlanRepository.save(opObservationPlan.get());
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, null);
+
+    }
+    public ApiResponse searchObservationPlanByCampus(SearchObservationPlanRequest searchObservationPlanRequest){
+
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,null);
+    }
+
+   /* public ApiResponse updateObservationPlan(ObservationPlanRequest observationPlanRequest){
         Optional<ObservationPlan> opObservationPlan =observationPlanRepository.findByIdAndPlanStatus(observationPlanRequest.getId(),
                 2);
         try {
@@ -110,6 +140,6 @@ public class ObservationPlanService {
             System.out.println(e.getMessage());
         }
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
-    }
+    }*/
 }
 

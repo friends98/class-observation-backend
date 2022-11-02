@@ -4,13 +4,11 @@ package com.observationclass.controller;
 import com.observationclass.entity.ObservationPlan;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.ObservationPlanRequest;
+import com.observationclass.model.request.ObservationPlanUpdateRequest;
 import com.observationclass.service.ObservationPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,9 +25,15 @@ public class ObservationPlanController {
         return ResponseEntity.ok().body(observationPlanService.createObservationPlan(observationPlanRequest));
     }
     @PostMapping("/updateObservationPlan")
-    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanRequest observationPlanRequest){
-        return ResponseEntity.ok().body(observationPlanService.updateObservationPlan(observationPlanRequest));
+    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanUpdateRequest
+                                                                         observationPlanUpdateRequest){
+        return ResponseEntity.ok().body(observationPlanService.updateObservationPlan(observationPlanUpdateRequest));
     }
+    @PostMapping("/deleteObservation")
+    public ResponseEntity<ApiResponse> deleteObservation(@RequestParam(name = "id")Integer id){
+        return ResponseEntity.ok().body(observationPlanService.deleteObservationPlan(id));
+    }
+
 
 //    @PostMapping("/updateObservationPlan")
 //    public ResponseEntity<ApiResponse> updateObservationPlan(@RequestBody @Valid ObservationPlanRequest observationPlanRequest) {
