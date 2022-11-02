@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/admin")
 public class CriteriaController {
     @Autowired
-    private CriteriaService criteriaService;
+    private CriteriaService criteriaService ;
 
     @PostMapping("/createCriteria")
     public ResponseEntity<ApiResponse> createNewCriteria(@RequestBody @Valid CriteriaRequest criteriaRequest) {
