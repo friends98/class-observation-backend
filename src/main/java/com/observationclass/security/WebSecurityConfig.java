@@ -81,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new AuthTokenFilter(authenticationManager(), accountReqository))
                 .authorizeRequests()
                 .antMatchers("/auth/google").permitAll()
+                .antMatchers("/api/campusDropdownList").permitAll()
                 .antMatchers("/api/admin/**").hasAnyAuthority(ERole.ROLE_ADMIN.toString())
                 .antMatchers("/api/headTraining/**").hasAnyAuthority(ERole.ROLE_HEAD_TRAINING.toString())
                 .antMatchers("/api/headSubject/**").hasAnyAuthority(ERole.ROLE_HEAD_SUBJECT.toString())
