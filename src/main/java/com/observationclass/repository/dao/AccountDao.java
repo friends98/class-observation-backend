@@ -1,8 +1,11 @@
 package com.observationclass.repository.dao;
 
 import com.observationclass.model.response.AccountResponse;
+import com.observationclass.utils.Utils;
 import org.hibernate.Session;
 import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
+import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,8 +17,8 @@ import java.util.List;
 public class AccountDao {
     @Autowired
     private EntityManager entityManager;
-    public List<AccountResponse> listAccountByRole(Integer roleId) {
-        List<AccountResponse> listAccountResponse = new ArrayList<>();
+    public List<Object> listAccountByRole(Integer roleId) {
+        List<Object> listAccountResponse = new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb =new StringBuilder();
         sb.append("SELECT acc.id as id ,acc.user_name as userName,\n" +
@@ -26,9 +29,13 @@ public class AccountDao {
         if(roleId!=null){
             sb.append(" AND accr.role_id=:roleId");
         }
-        NativeQuery<AccountResponse> query=session.createNativeQuery(sb.toString());
+        @SuppressWarnings("unchecked")
+        NativeQuery<AccountResponse> query = session.createNativeQuery(sb.toString());
+        Utils.addScalr(query,AccountResponse.class);
         query.setParameter("roleId",roleId);
         session.close();
-        return query.getResultList();
+        listAccountResponse.addAll(query.getResultList());
+
+        return listAccountResponse;
     }
 }

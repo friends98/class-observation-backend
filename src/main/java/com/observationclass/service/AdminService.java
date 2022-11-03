@@ -32,10 +32,11 @@ public class AdminService {
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.CREATE_SUCCESS,accountRepository.findAllByDeleteFlag(Constants.DELETE_NONE));
     }
     public ApiResponse getAccountByRole(Integer roleId){
-        List<AccountResponse> listAccountByRole = accountDao.listAccountByRole(roleId);
+        List<Object> listAccountByRole = accountDao.listAccountByRole(roleId);
         if(listAccountByRole.isEmpty()){
 
         }
+
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listAccountByRole);
     }
     public ApiResponse deleteAccountById(Integer id){

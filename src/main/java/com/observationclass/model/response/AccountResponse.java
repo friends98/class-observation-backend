@@ -3,8 +3,6 @@ package com.observationclass.model.response;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
-@Data
 @Getter
 @Setter
 public class AccountResponse {
@@ -12,5 +10,6 @@ public class AccountResponse {
     private String userName;
     private String email;
     private String campusName;
+
 
 }
