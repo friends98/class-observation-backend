@@ -49,7 +49,6 @@ public class ObservationPlanService {
     public ApiResponse createObservationPlan(ObservationPlanRequest observationPlanRequest) {
 
         ObservationPlan observationPlan = new ObservationPlan();
-        try {
             Optional<Campus> opCampus = campusRepository.findById(observationPlanRequest.getCampusId());
             Optional<Semester> opSemester = semesterRepository.findById(observationPlanRequest.getSemesterId());
             Optional<Department> opDepartment = departmentRepository.findById(observationPlanRequest.getDepartmentId());
@@ -76,9 +75,8 @@ public class ObservationPlanService {
             });
             Collections.reverse(lstObservationSlot);
             observationSlotRepository.saveAll(lstObservationSlot);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+
+
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
