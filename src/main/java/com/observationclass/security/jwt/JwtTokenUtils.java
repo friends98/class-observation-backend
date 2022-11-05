@@ -20,7 +20,7 @@ public class JwtTokenUtils {
 
     @Value("${jwt.ExpirationMs}")
     private int jwtExpirationMs ;
-    private AuthenticationManager authenticationManager;
+    //private AuthenticationManager authenticationManager;
 
    public String generateJwtToken(String userName) throws Exception{
        String token= JWT.create()
@@ -46,8 +46,8 @@ public class JwtTokenUtils {
         }
         return false;
     }
-    public void getEmailFromToken(){
-        System.out.println("");
-    }
+    //public void getEmailFromToken(){
+      //  System.out.println("");
+    //}
 
 }

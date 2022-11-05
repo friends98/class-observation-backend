@@ -13,8 +13,8 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-    public List<DropdownListResponse> getDeparmentDropdownList(){
-        return departmentRepository.campusDropdownList();
+    public List<DropdownListResponse> getDeparmentDropdownList(Integer campusId){
+        return departmentRepository.campusDropdownList(campusId);
     }
 
 }
