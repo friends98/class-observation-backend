@@ -11,22 +11,29 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/training")
 public class CriteriaController {
     @Autowired
-    private CriteriaService criteriaService ;
+    private CriteriaService criteriaService;
 
-    @PostMapping("/createCriteria")
+    @GetMapping("/list-criteria-campus")
+    public ResponseEntity<ApiResponse> listCriteriaByCampus(@RequestParam(name = "id") Integer campusId) {
+        return ResponseEntity.ok().body(criteriaService.listCriteriaByCampus(campusId));
+    }
+
+    @PostMapping("/create-criteria")
     public ResponseEntity<ApiResponse> createNewCriteria(@RequestBody @Valid CriteriaRequest criteriaRequest) {
         return ResponseEntity.ok().body(criteriaService.addNewCriteria(criteriaRequest));
     }
 
-    @PostMapping("/updateCriteria")
+    @PostMapping("/update-criteria")
     public ResponseEntity<ApiResponse> updateCriteria(@RequestBody @Valid CriteriaRequest criteriaRequest) {
         return ResponseEntity.ok().body(criteriaService.updateCriteria(criteriaRequest));
     }
-    @PostMapping("/deleteCriteria")
-    public ResponseEntity<ApiResponse> deleteCriteriaById(@RequestParam(value = "id") Integer id){
-        return ResponseEntity.ok().body(criteriaService.deleteCriteriaById(id));
+
+    @PostMapping("/delete-criteria")
+    public ResponseEntity<ApiResponse> deleteCriteriaById(@RequestParam(name = "id") Integer id, @RequestParam(name =
+            "campusId") Integer campusId) {
+        return ResponseEntity.ok().body(criteriaService.deleteCriteriaById(id, campusId));
     }
 }
