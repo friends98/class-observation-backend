@@ -46,12 +46,15 @@ public class ObservationPlanService {
     @Autowired
     private ObservationSlotRepository observationSlotRepository;
 
-    public ApiResponse createObservationPlan(ObservationPlanRequest observationPlanRequest) {
+    public ApiResponse createNewObservationPlan(ObservationPlanRequest observationPlanRequest) {
 
         ObservationPlan observationPlan = new ObservationPlan();
             Optional<Campus> opCampus = campusRepository.findById(observationPlanRequest.getCampusId());
             Optional<Semester> opSemester = semesterRepository.findById(observationPlanRequest.getSemesterId());
             Optional<Department> opDepartment = departmentRepository.findById(observationPlanRequest.getDepartmentId());
+            if(opCampus.isEmpty()||opSemester.isEmpty()||opDepartment.isEmpty()){
+
+            }
             observationPlan.setSemester(opSemester.get());
             observationPlan.setCampus(opCampus.get());
             observationPlan.setDepartment(opDepartment.get());
