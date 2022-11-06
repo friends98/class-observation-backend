@@ -12,16 +12,19 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="department")
+@Table(name = "department")
 @Entity
 public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="department_name")
+    @Column(name = "department_name")
     private String departmentName;
+
+    @Column(name = "campus_id")
+    private Integer campusId;
 
 }

@@ -16,6 +16,6 @@ public class SemesterController {
     @Autowired
     private SemesterService semesterService;
 
-    @GetMapping("/semesterDropdownList")
+    @GetMapping("/semester-list")
     public List<DropdownListResponse> getSemesterDropdownList(){return semesterService.getSemesterDropdownList();}
 }

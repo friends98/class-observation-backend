@@ -13,19 +13,22 @@ import java.util.List;
 public class UserPrincipal implements UserDetails {
     @Autowired
     private Account account;
+
     @Autowired
-    public UserPrincipal(Account account){
-        this.account=account;
+    public UserPrincipal(Account account) {
+        this.account = account;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities =new ArrayList<>();
-        account.getRoles().forEach(temp->{
-            GrantedAuthority grantedAuthority =new SimpleGrantedAuthority(temp.getRoleName().toString());
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        account.getRoles().forEach(temp -> {
+            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(temp.getRoleName().toString());
             authorities.add(grantedAuthority);
         });
         return authorities;
     }
+
     @Override
     public String getPassword() {
         return null;

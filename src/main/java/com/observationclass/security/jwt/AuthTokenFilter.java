@@ -54,11 +54,11 @@ public class AuthTokenFilter extends BasicAuthenticationFilter {
         filterChain.doFilter(request, response);
     }
 
-    public String parseJwt(HttpServletRequest request){
-        String headerAuth = request.getHeader("Authorization");
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
-            return headerAuth.substring(7, headerAuth.length());
-        }
-        return null;
-    }
+//    public String parseJwt(HttpServletRequest request){
+//        String headerAuth = request.getHeader("Authorization");
+//        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+//            return headerAuth.substring(7, headerAuth.length());
+//        }
+//        return null;
+//    }
 }

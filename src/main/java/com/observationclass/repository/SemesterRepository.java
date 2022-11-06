@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SemesterRepository extends JpaRepository<Semester,Integer> {
-    @Query(value="SELECT s.id as value,s.semester_name as name FROM semester s",nativeQuery=true)
+public interface SemesterRepository extends JpaRepository<Semester, Integer> {
+    @Query(value = "SELECT s.id as value,s.semester_name as name FROM semester s", nativeQuery = true)
     List<DropdownListResponse> semesterDropdownList();
 }
 

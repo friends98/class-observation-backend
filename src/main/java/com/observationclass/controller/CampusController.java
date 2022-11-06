@@ -15,7 +15,7 @@ public class CampusController {
     @Autowired
     private CampusService campusService;
 
-    @GetMapping("/campusDropdownList")
+    @GetMapping("/campus-dropdown-list")
     public List<DropdownListResponse> getCampusDropdownList(){
         return campusService.getCampusDropdownList();
     }

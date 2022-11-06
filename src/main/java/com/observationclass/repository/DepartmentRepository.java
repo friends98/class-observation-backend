@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department,Integer> {
     @Query(value = "SELECT d.id as value,d.department_name as name\n" +
-            "FROM department d",nativeQuery = true)
-    List<DropdownListResponse> campusDropdownList();
+            "FROM department d WHERE d.campus_id=:campusId",nativeQuery = true)
+    List<DropdownListResponse> campusDropdownList(Integer campusId);
 }
