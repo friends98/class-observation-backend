@@ -18,6 +18,8 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     List<Account> findAllByDeleteFlag(Integer deleteFlag);
 
+    Optional<Account> findByIdAndCampusIdAndDeleteFlag(Integer id, Integer campusId, Integer deleteFlag);
+
     boolean existsByEmail(String email);
 
 }

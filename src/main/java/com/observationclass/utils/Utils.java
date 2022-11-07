@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class Utils {
@@ -20,9 +21,11 @@ public class Utils {
         return Timestamp.valueOf(localDateTimeWithoutTimeZone);
     }
     public static Timestamp resultTimestamp() {
-        // HoanNNC update common remove time zone
-        LocalDateTime localDateTimeWithoutTimeZone = Instant.now().atOffset(ZoneOffset.UTC).toLocalDateTime();
-        return Timestamp.valueOf(localDateTimeWithoutTimeZone);
+       
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
+        LocalDateTime localDateTimeWithoutTimeZone = LocalDateTime.now();
+        logger.info("Đây là thời gian thực :{}",localDateTimeWithoutTimeZone);
+        return Timestamp.valueOf(dateTimeFormatter.format(localDateTimeWithoutTimeZone));
     }
     public static <T> void addScalr(NativeQuery<?> sqlQuery, Class<T> clazz) {
         if (clazz == null) {
