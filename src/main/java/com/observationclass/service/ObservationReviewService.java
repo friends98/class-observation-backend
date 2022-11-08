@@ -45,8 +45,8 @@ public class ObservationReviewService {
             String disadvantage = observationReviewRequest.getDisadvantage();
             String comment =observationReviewRequest.getComment();
             Integer totalPoint = getTotalPointFromRequest(observationReviewRequest);
-            Integer accountId =observationReviewRequest.getAccountId();
-            Integer observationSlotId =observationReviewRequest.getObservationSlotId();
+            //Integer accountId =observationReviewRequest.getAccountId();
+            //Integer observationSlotId =observationReviewRequest.getObservationSlotId();
             observationReview.setLessonName(lessonName);
             observationReview.setAdvantage(advantage);
             observationReview.setDisadvantage(disadvantage);
