@@ -54,7 +54,7 @@ public class LoginController {
             throw new RecordNotFoundException("Campus " + Constants.ERROR);
         }
         String accessToken = jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
-        return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), accessToken, account.getCampusId(), account.getRoles()));
+        return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), accessToken, account.getCampusId(),account.getId(), account.getRoles()));
     }
 }
 

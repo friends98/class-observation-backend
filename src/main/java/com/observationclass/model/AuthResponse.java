@@ -13,13 +13,15 @@ public class AuthResponse {
     private String accessToken;
     private String tokenType;
     private Integer campusId;
+    private Integer userId;
     private Set<Role> setRole;
 
-    public AuthResponse(String userName, String accessToken,Integer campusId, Set<Role> setRole) {
+    public AuthResponse(String userName, String accessToken,Integer campusId,Integer userId, Set<Role> setRole) {
         this.userName = userName;
         this.accessToken = accessToken;
         this.tokenType="Bearer";
         this.campusId=campusId;
+        this.userId=userId;
         this.setRole = setRole;
     }
 }

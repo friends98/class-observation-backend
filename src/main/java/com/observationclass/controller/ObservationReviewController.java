@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/lecture")
 public class ObservationReviewController {
     @Autowired
     private ObservationReviewService observationReviewService;
 
-    @PostMapping("/createObservationReview")
+    @PostMapping("/create-observation-review")
     public ResponseEntity<ApiResponse> createObservationReview(@RequestBody @Valid ObservationReviewRequest observationReviewRequest) {
         return ResponseEntity.ok().body(observationReviewService.createObservationReview(observationReviewRequest));
     }
