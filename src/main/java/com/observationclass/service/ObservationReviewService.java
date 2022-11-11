@@ -12,6 +12,7 @@ import com.observationclass.repository.AccountRepository;
 import com.observationclass.repository.ObservationDetailRepository;
 import com.observationclass.repository.ObservationReviewRepository;
 import com.observationclass.repository.ObservationSlotRepository;
+import com.observationclass.repository.dao.ObservationReviewDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,17 @@ public class ObservationReviewService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ObservationReviewDao observationReviewDao;
+
+    public ApiResponse listObservationReviewBySemester( Integer campusId, Integer semesterId,Integer accountId) {
+        List<Object> listObservationReview = new ArrayList<>();
+        if(accountId !=null && campusId!=null && semesterId!=null ){
+            listObservationReview.addAll(observationReviewDao.listObservationReview(campusId,semesterId,accountId));
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listObservationReview);
+    }
 
 
     public ApiResponse createObservationReview(ObservationReviewRequest observationReviewRequest) {
