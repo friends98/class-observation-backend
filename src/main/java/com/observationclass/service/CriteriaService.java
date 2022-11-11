@@ -8,6 +8,7 @@ import com.observationclass.model.request.CriteriaRequest;
 import com.observationclass.repository.CriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,7 +58,7 @@ public class CriteriaService {
     }
 
     public void setNewCritera(Criteria criteria, CriteriaRequest criteriaRequest) {
-        int sizeCriteria = criteriaRepository.findAll().size();
+        int sizeCriteria = criteriaRepository.findAllByCampusIdAndDeleteFlag(criteriaRequest.getCampusId(), Constants.DELETE_NONE).size();
         criteria.setCriteriaCode("TC" + (sizeCriteria + 1));
         criteria.setCriteriaName(criteriaRequest.getCriteriaName());
         criteria.setCampusId(criteriaRequest.getCampusId());
