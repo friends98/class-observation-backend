@@ -16,7 +16,7 @@ import java.util.List;
 public class ObservationSlotDao {
     @Autowired
     private EntityManager entityManager;
-    public List<Object>  listObservationSlotBySemester(Integer accountId, Integer semesterId){
+    public List<Object>  listObservationSlotBySemester(Integer semesterId, Integer accountId){
         List<Object> listObservationReview =new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb = new StringBuilder();
@@ -39,7 +39,7 @@ public class ObservationSlotDao {
         query.setParameter("semesterId", semesterId);
         query.setParameter("accountId", accountId);
         session.close();
-        listObservationReview.add(query.getResultList());
+        listObservationReview.addAll(query.getResultList());
         System.out.println("size "+listObservationReview.size());
         return listObservationReview;
 
