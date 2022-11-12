@@ -23,6 +23,9 @@ public class Slot {
     @Column(name="slot_name")
     private String slotName;
 
+    @Column(name="slot_range")
+    private String slotRange;
+
 
 
 

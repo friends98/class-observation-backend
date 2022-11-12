@@ -5,8 +5,10 @@ import com.observationclass.entity.Account;
 import com.observationclass.entity.Role;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
+import com.observationclass.model.response.DropdownListResponse;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.security.UserPrincipal;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -38,6 +41,11 @@ public class AccountService implements UserDetailsService {
     }
     public boolean checkEmailExist(String email) {
         return accountRepository.existsByEmail(email);
+    }
+
+    public ApiResponse listAccountByCampus(Integer campusId, String email) {
+        List<DropdownListResponse> listAccountByCampus = accountRepository.findAllByCampusAndDelete(campusId, email, Constants.DELETE_NONE);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listAccountByCampus);
     }
 
 

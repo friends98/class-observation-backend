@@ -90,6 +90,7 @@ public class ObservationPlanService {
             observationSlot.setAccount1(getAccountById(r.getAccountId1(), campusId, Constants.DELETE_NONE));
             observationSlot.setAccount2(getAccountById(r.getAccountId2(), campusId, Constants.DELETE_NONE));
             observationSlot.setObservationPlan(observationPlan);
+            observationSlot.setResult(0);
             lstObservationSlot.add(observationSlot);
         });
         Collections.reverse(lstObservationSlot);

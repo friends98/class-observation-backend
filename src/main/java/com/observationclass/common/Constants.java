@@ -17,8 +17,8 @@ public class Constants {
 
     // status
     public static final Integer NEW_PLAN = 0;
-    public static final Integer APPROVE = 1;
-    public static final Integer REJECT = 2;
+    public static final Integer APPROVE = 0;
+    public static final Integer REJECT = 1;
 
     //reiview
     public static final Integer SAVE_DRAFF=0;
