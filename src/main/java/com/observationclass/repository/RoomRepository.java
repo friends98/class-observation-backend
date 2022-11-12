@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
-    @Query(value = "SELECT r.id as value,r.room_name as name  FROM room r", nativeQuery = true)
-    List<DropdownListResponse> findAllByCampusId(Integer campusId);
+    @Query(value = "SELECT r.id as value,r.room_name as name  FROM room r WHERE r.campus_id=:campusId AND r.room_name like CONCAT('%',:name,'%')", nativeQuery = true)
+    List<DropdownListResponse> findByCampusId(Integer campusId,String name);
 
 
 }

@@ -63,4 +63,7 @@ public class ObservationSlot extends CommonEntity {
     @JoinColumn(name = "plan_id")
     private ObservationPlan observationPlan;
 
+    @Column(name="result")
+    private Integer result;
+
 }

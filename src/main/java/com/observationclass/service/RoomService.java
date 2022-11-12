@@ -15,8 +15,8 @@ public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
 
-    public ApiResponse getDropdownlistRoomByCampusId(Integer campusId) {
-        List<DropdownListResponse> roomDropdownList = roomRepository.findAllByCampusId(campusId);
+    public ApiResponse getDropdownlistRoomByCampusId(Integer campusId,String name) {
+        List<DropdownListResponse> roomDropdownList = roomRepository.findByCampusId(campusId,name);
         if (roomDropdownList == null) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }

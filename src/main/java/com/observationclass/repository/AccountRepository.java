@@ -1,7 +1,9 @@
 package com.observationclass.repository;
 
 import com.observationclass.entity.Account;
+import com.observationclass.model.response.DropdownListResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +23,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     Optional<Account> findByIdAndCampusIdAndDeleteFlag(Integer id, Integer campusId, Integer deleteFlag);
 
     boolean existsByEmail(String email);
+    @Query(value="SELECT acc.id as value,acc.email as name\n" +
+            "FROM account acc WHERE acc.campus_id=:campusId AND acc.delete_flag=:deleteFlag AND acc.email\n" +
+            "like (Concat('%',:email,'%'))",nativeQuery = true)
+    List<DropdownListResponse>findAllByCampusAndDelete(Integer campusId,String email,Integer deleteFlag);
 
 }

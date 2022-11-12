@@ -1,7 +1,7 @@
 package com.observationclass.controller;
 
 import com.observationclass.model.ApiResponse;
-import com.observationclass.service.RoomService;
+import com.observationclass.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-public class RoomController {
+public class SubjectController {
     @Autowired
-    private RoomService roomService;
-    @GetMapping("/room-dropdown-list")
-    public ResponseEntity<ApiResponse> roomDropdownListByCampusId(@RequestParam(name = "id") Integer campusId
-            ,@RequestParam(name="name")String name) {
-        return ResponseEntity.ok().body(roomService.getDropdownlistRoomByCampusId(campusId,name));
+    private SubjectService subjectService;
+
+    @GetMapping("/subject-dropdown-list")
+    public ResponseEntity<ApiResponse> getListSubjectByCampusId(@RequestParam(name="id")Integer campusId
+                                                                ,@RequestParam(name="code")String subCode){
+        return ResponseEntity.ok().body(subjectService.getDropdownlistSubjectByCampus(campusId,subCode));
+
     }
 }
