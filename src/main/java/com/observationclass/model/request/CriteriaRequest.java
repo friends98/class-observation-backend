@@ -7,5 +7,5 @@ public class CriteriaRequest {
     private Integer id;
     //private String criteriaCode;
     private String criteriaName;
-    private Integer campusId;
+    //private Integer campusId;
 }

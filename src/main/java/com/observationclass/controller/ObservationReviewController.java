@@ -14,15 +14,13 @@ import javax.validation.Valid;
 public class ObservationReviewController {
     @Autowired
     private ObservationReviewService observationReviewService;
+
     @GetMapping("list-observation-review")
-    public ResponseEntity<ApiResponse> listObservationReview(@RequestParam(name="campusId")Integer campusId,
-                                                             @RequestParam(name="semesterId")Integer semesterId,
-                                                             @RequestParam(name="accountId")Integer accountId)
-    {
-        return ResponseEntity.ok().body(observationReviewService.listObservationReviewBySemester(campusId,semesterId,accountId));
-
+    public ResponseEntity<ApiResponse> listObservationReview(@RequestParam(name = "campusId") Integer campusId,
+                                                             @RequestParam(name = "semesterId") Integer semesterId,
+                                                             @RequestParam(name = "accountId") Integer accountId) {
+        return ResponseEntity.ok().body(observationReviewService.listObservationReviewBySemester(campusId, semesterId, accountId));
     }
-
 
     @PostMapping("/create-observation-review")
     public ResponseEntity<ApiResponse> createObservationReview(@RequestBody @Valid ObservationReviewRequest observationReviewRequest) {

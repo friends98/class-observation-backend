@@ -49,8 +49,6 @@ public class ObservationReviewService {
         Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findById(observationReviewRequest.
                 getObservationSlotId());
         Optional<Account> opAccount = accountRepository.findById(observationReviewRequest.getAccountId());
-
-
         if (opObservationSlot.isPresent() && opAccount.isPresent()) {
             String lessonName = observationReviewRequest.getLessonName();
             String advantage = observationReviewRequest.getAdvantage();
@@ -86,7 +84,6 @@ public class ObservationReviewService {
 
     public static Integer getTotalPointFromRequest(ObservationReviewRequest observationReviewRequest) {
         Set<ObservationDetailRequest> setObservationDetail = observationReviewRequest.getObservationDetailRequests();
-
         Integer totalPoint = setObservationDetail.stream().mapToInt(ObservationDetailRequest::getPoint).sum();
         return totalPoint;
     }

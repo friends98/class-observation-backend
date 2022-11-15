@@ -17,8 +17,8 @@ public class CriteriaController {
     private CriteriaService criteriaService;
 
     @GetMapping("/list-criteria-campus")
-    public ResponseEntity<ApiResponse> listCriteriaByCampus(@RequestParam(name = "id") Integer campusId) {
-        return ResponseEntity.ok().body(criteriaService.listCriteriaByCampus(campusId));
+    public ResponseEntity<ApiResponse> listCriteriaByCampus() {
+        return ResponseEntity.ok().body(criteriaService.getListCriteria());
     }
 
     @PostMapping("/create-criteria")
@@ -32,8 +32,7 @@ public class CriteriaController {
     }
 
     @PostMapping("/delete-criteria")
-    public ResponseEntity<ApiResponse> deleteCriteriaById(@RequestParam(name = "id") Integer id, @RequestParam(name =
-            "campusId") Integer campusId) {
-        return ResponseEntity.ok().body(criteriaService.deleteCriteriaById(id, campusId));
+    public ResponseEntity<ApiResponse> deleteCriteriaById(@RequestParam(name = "id") Integer id) {
+        return ResponseEntity.ok().body(criteriaService.deleteCriteriaById(id));
     }
 }

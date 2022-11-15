@@ -65,6 +65,7 @@ public class ObservationPlanService {
         Optional<Semester> opSemester = semesterRepository.findById(observationPlanRequest.getSemesterId());
         Optional<Department> opDepartment = departmentRepository.findByIdAndCampusId(observationPlanRequest.
                 getDepartmentId(), observationPlanRequest.getCampusId());
+        
         if (opCampus.isEmpty() || opSemester.isEmpty() || opDepartment.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }

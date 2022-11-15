@@ -47,6 +47,7 @@ public class ObservationSlotService {
         List<Object> listResultObservationSlot = observationSlotDao.resultObservationSlot(observationSlotId);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listResultObservationSlot);
     }
+    // đánh giá slot đó đạt hay ko đạt
     public ApiResponse rejectResultObservationSlot(Integer observationSlotId){
         Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(observationSlotId,
                 Constants.DELETE_NONE);
