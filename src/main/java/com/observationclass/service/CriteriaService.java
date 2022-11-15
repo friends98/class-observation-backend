@@ -8,7 +8,6 @@ import com.observationclass.model.request.CriteriaRequest;
 import com.observationclass.repository.CriteriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +17,12 @@ public class CriteriaService {
     @Autowired
     private CriteriaRepository criteriaRepository;
 
-    public ApiResponse listCriteriaByCampus(Integer campusId) {
-        List<Criteria> listCriteriaByCampus = criteriaRepository.findAllByCampusIdAndDeleteFlag(campusId,Constants.DELETE_NONE);
-        if (listCriteriaByCampus == null) {
-            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+    public ApiResponse getListCriteria() {
+        List<Criteria> listCriteria = criteriaRepository.findAllByDeleteFlag(Constants.DELETE_NONE);
+        if (listCriteria == null) {
+            throw new RecordNotFoundException("List criteria is empty!");
         }
-        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listCriteriaByCampus);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listCriteria);
     }
 
     public ApiResponse addNewCriteria(CriteriaRequest criteriaRequest) {
@@ -35,10 +34,9 @@ public class CriteriaService {
     }
 
     public ApiResponse updateCriteria(CriteriaRequest criteriaRequest) {
-        Optional<Criteria> opCriteria = criteriaRepository.findCriteriaByIdAndCampusIdAndDeleteFlag(criteriaRequest.getId(),
-                criteriaRequest.getCampusId(), Constants.DELETE_NONE);
+        Optional<Criteria> opCriteria = criteriaRepository.findByIdAndDeleteFlag(criteriaRequest.getId(), Constants.DELETE_NONE);
         if (opCriteria.isEmpty()) {
-            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+            throw new RecordNotFoundException("Criteria not found by Id");
         }
         opCriteria.get().setCriteriaName(criteriaRequest.getCriteriaName());
         opCriteria.get().setUpdate();
@@ -46,22 +44,20 @@ public class CriteriaService {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
     }
 
-    public ApiResponse deleteCriteriaById(Integer id, Integer campusId) {
-        Optional<Criteria> opCriteria = criteriaRepository.findCriteriaByIdAndCampusIdAndDeleteFlag(id, campusId,
-                Constants.DELETE_NONE);
-        if (!opCriteria.isEmpty()) {
-            opCriteria.get().setDeleteFlag(Constants.DELETE_TRUE);
+    public ApiResponse deleteCriteriaById(Integer id) {
+        Optional<Criteria> opCriteria = criteriaRepository.findByIdAndDeleteFlag(id, Constants.DELETE_NONE);
+        if (opCriteria.isEmpty()) {
+            throw new RecordNotFoundException("Criteria not found by Id");
         }
-
+        opCriteria.get().setDeleteFlag(Constants.DELETE_TRUE);
         criteriaRepository.save(opCriteria.get());
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, null);
     }
 
     public void setNewCritera(Criteria criteria, CriteriaRequest criteriaRequest) {
-        int sizeCriteria = criteriaRepository.findAllByCampusIdAndDeleteFlag(criteriaRequest.getCampusId(), Constants.DELETE_NONE).size();
+        int sizeCriteria = criteriaRepository.findAllByDeleteFlag(Constants.DELETE_NONE).size();
         criteria.setCriteriaCode("TC" + (sizeCriteria + 1));
         criteria.setCriteriaName(criteriaRequest.getCriteriaName());
-        criteria.setCampusId(criteriaRequest.getCampusId());
     }
 
 }

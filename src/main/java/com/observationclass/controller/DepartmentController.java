@@ -20,7 +20,7 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
     @GetMapping("/list-department")
-    public ResponseEntity<ApiResponse> getDepartmentDropdownList(@RequestParam(name="id")Integer campusId, @RequestParam(name="name")String depName) {
-        return ResponseEntity.ok().body(departmentService.getDeparmentDropdownList(campusId, depName));
+    public List<DropdownListResponse> getDepartmentDropdownList(@RequestParam(name="id")Integer campusId, @RequestParam(name="name")String depName) {
+        return departmentService.getDeparmentDropdownList(campusId, depName);
     }
 }
