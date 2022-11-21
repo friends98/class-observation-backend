@@ -8,6 +8,7 @@ import com.observationclass.entity.ObservationSlot;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.ObservationDetailRequest;
 import com.observationclass.model.request.ObservationReviewRequest;
+import com.observationclass.model.response.EvaluationObservationReivewDetail;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.repository.ObservationDetailRepository;
 import com.observationclass.repository.ObservationReviewRepository;
@@ -35,6 +36,8 @@ public class ObservationReviewService {
     @Autowired
     private ObservationReviewDao observationReviewDao;
 
+
+
     public ApiResponse listObservationReviewBySemester( Integer campusId, Integer semesterId,Integer accountId) {
         List<Object> listObservationReview = new ArrayList<>();
         if(accountId !=null && campusId!=null && semesterId!=null ){
@@ -43,6 +46,19 @@ public class ObservationReviewService {
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listObservationReview);
     }
 
+    public ApiResponse viewMyEvaluationDetail(Integer slotId, Integer accountId) {
+        Optional<ObservationReview> opObservationReview = observationReviewRepository.findByAccountAndObservationSlot(slotId,
+                accountId);
+        List<ObservationDetail> listOfObservationDetail = observationDetailRepository.findByObservationReviewId(
+                opObservationReview.get().getId());
+        EvaluationObservationReivewDetail evaluationObservationReivewDetail=new EvaluationObservationReivewDetail();
+        evaluationObservationReivewDetail.setAdvantage(opObservationReview.get().getAdvantage());
+        evaluationObservationReivewDetail.setDisadvantage(opObservationReview.get().getDisadvantage());
+        evaluationObservationReivewDetail.setComment(opObservationReview.get().getComment());
+        evaluationObservationReivewDetail.setStatus(opObservationReview.get().getStatus());
+        evaluationObservationReivewDetail.setListOfObservationDetail(listOfObservationDetail);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, evaluationObservationReivewDetail);
+    }
 
     public ApiResponse createObservationReview(ObservationReviewRequest observationReviewRequest) {
         ObservationReview observationReview = new ObservationReview();
@@ -64,7 +80,7 @@ public class ObservationReviewService {
             observationReview.setTotalPoint(totalPoint);
             observationReview.setObservationSlot(opObservationSlot.get());
             observationReview.setAccount(opAccount.get());
-            observationReview.setStatus(Constants.SAVE_DRAFF);
+            observationReview.setStatus(1);
             observationReview.setCreate();
             observationReviewRepository.save(observationReview);
             List<ObservationDetail> lstObservationDetail = new ArrayList<>();

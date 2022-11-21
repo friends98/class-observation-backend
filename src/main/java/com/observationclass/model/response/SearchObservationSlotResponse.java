@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @Setter
 public class SearchObservationSlotResponse {
     private Integer id;
+    private Integer planId;
     private String userName;
     private Timestamp slotTime;
     private String slot;

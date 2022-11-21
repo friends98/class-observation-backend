@@ -43,9 +43,9 @@ public class AccountService implements UserDetailsService {
         return accountRepository.existsByEmail(email);
     }
 
-    public ApiResponse listAccountByCampus(Integer campusId, String email) {
+    public List<DropdownListResponse> listAccountByCampus(Integer campusId, String email) {
         List<DropdownListResponse> listAccountByCampus = accountRepository.findAllByCampusAndDelete(campusId, email, Constants.DELETE_NONE);
-        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listAccountByCampus);
+        return listAccountByCampus;
     }
 
 

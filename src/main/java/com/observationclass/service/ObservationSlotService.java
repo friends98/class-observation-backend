@@ -1,6 +1,7 @@
 package com.observationclass.service;
 
 import com.observationclass.common.Constants;
+import com.observationclass.entity.ObservationPlan;
 import com.observationclass.entity.ObservationSlot;
 import com.observationclass.exception.RecordNotFoundException;
 import com.observationclass.model.ApiResponse;
@@ -41,8 +42,38 @@ public class ObservationSlotService {
     @Autowired
     private SubjectRepository subjectRepository;
 
+    @Autowired
+    private ObservationPlanRepository observationPlanRepository;
 
+    public ApiResponse createNewSlot(ObservationSlotRequest observationSlotRequest,Integer planId){
+        Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(planId);
+        if(opObservationPlan.isEmpty()){
+            throw new RecordNotFoundException("Not found optional Observation Plan");
+        }
+        ObservationSlot observationSlot = new ObservationSlot();
+        observationSlot.setAccount(accountRepository.findById(observationSlotRequest.getAccountId()).get());
+        observationSlot.setSubject(subjectRepository.findById(observationSlotRequest.getSubjectId()).get());
+        observationSlot.setReason(observationSlotRequest.getReason());
+        observationSlot.setSlotTime(observationSlotRequest.getSlotTime());
+        observationSlot.setSlot(slotRepository.findById(observationSlotRequest.getSlotId()).get());
+        observationSlot.setRoom(roomRepository.findById(observationSlotRequest.getRoomId()).get());
+        observationSlot.setClassName(observationSlotRequest.getClassName());
+        observationSlot.setHeadTraining(accountRepository.findById(observationSlotRequest.getHeadTraining()).get());
+        observationSlot.setHeadSubject(accountRepository.findById(observationSlotRequest.getHeadSubject()).get());
+        observationSlot.setAccount1(accountRepository.findById(observationSlotRequest.getAccountId1()).get());
+        observationSlot.setAccount2(accountRepository.findById(observationSlotRequest.getAccountId2()).get());
+        observationSlot.setObservationPlan(opObservationPlan.get());
+        observationSlot.setCreate();
+        observationSlotRepository.save(observationSlot);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
 
+    // danh sach slot theo ke hoach
+    public ApiResponse listOfObservationSlotByPlanId(Integer planId) {
+        List<Object> listOfObservationSlot = observationSlotDao.listOfObservationSlotByPlanId(planId);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listOfObservationSlot);
+    }
+    // hiên thi ket qua danh gia của GV đi dự giờ theo  slot id
     public ApiResponse resultObservationSlotById(Integer observationSlotId){
         List<Object> listResultObservationSlot = observationSlotDao.resultObservationSlot(observationSlotId);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listResultObservationSlot);
@@ -56,12 +87,13 @@ public class ObservationSlotService {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
 
     }
-
+    // danh sach cac slot cua CNBM theo kì
     public ApiResponse listObservationSlotBySemester(Integer semesterId,Integer accountId){
         List<Object> listObservationSlot = observationSlotDao.listObservationSlotBySemester(semesterId, accountId);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listObservationSlot);
     }
 
+    //update slot
     public ApiResponse updateObservationSlot(ObservationSlotRequest observationSlotRequest){
         Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(observationSlotRequest.getId(), Constants.DELETE_NONE);
         if(opObservationSlot.isEmpty()){
