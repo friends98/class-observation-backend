@@ -21,7 +21,7 @@ public class ObservationSlotDao {
         List<Object> listOfObservationSlot =new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT os.id as id,acc.user_name as userName,os.slot_time as slotTime,slot.slot_range as slot,\n" +
+        sb.append("SELECT os.id as id,os.plan_id as planId,acc.user_name as userName,os.slot_time as slotTime,slot.slot_range as slot,\n" +
                 "room.room_name as roomName,subject.subject_code as subjectCode,subject.subject_name as subjectName,\n" +
                 "os.class_name as className,os.reason as reason,\n" +
                 "acc0.user_name as headTraining,acc1.user_name as lecture1,acc2.user_name lecture2\n" +
