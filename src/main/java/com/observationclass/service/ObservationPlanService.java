@@ -52,6 +52,17 @@ public class ObservationPlanService {
     @Autowired
     ObservationPlanDao observationPlanDao;
 
+    public ApiResponse approveObservationPlan(Integer planId,Integer status){
+        Optional<ObservationPlan> opObservationPlan = observationPlanRepository.
+                findByIdAndPlanStatusAndDeleteFlag(planId, Constants.NEW_PLAN, Constants.DELETE_NONE);
+        if (opObservationPlan.isEmpty()) {
+            throw new RecordNotFoundException("Optinal observation not found!");
+        }
+        opObservationPlan.get().setPlanStatus(status);
+        observationPlanRepository.save(opObservationPlan.get());
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
+    }
+
     public ApiResponse listPlanBySemesterAndCampus(Integer campusId, Integer semesterId) {
         List<Object> listSearchObservationPlan = observationPlanDao
                 .listSearchObservationPlan(campusId,semesterId);

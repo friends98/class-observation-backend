@@ -1,5 +1,6 @@
 package com.observationclass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class ObservationDetail {
 
     @ManyToOne(fetch = FetchType.LAZY,optional=false)
     @JoinColumn(name="observation_review_id")
+    @JsonIgnore
     private ObservationReview observationReview;
 
 }

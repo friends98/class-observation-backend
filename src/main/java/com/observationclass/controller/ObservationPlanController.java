@@ -14,11 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 public class ObservationPlanController {
 
     @Autowired
     private ObservationPlanService observationPlanService;
+
+    @PostMapping("/approve-observation-plan")
+    public ResponseEntity<ApiResponse> approveObservationPlan(@RequestParam(name = "planId") Integer planId
+            , @RequestParam(name = "statusId") Integer statusId) {
+        return ResponseEntity.ok().body(observationPlanService.approveObservationPlan(planId, statusId));
+    }
 
     @GetMapping("/list-search-observation-plan")
     public ResponseEntity<ApiResponse> listSearchObservationPlan(@RequestParam(name="campusId")Integer campusId,

@@ -14,14 +14,20 @@ import javax.validation.Valid;
 public class ObservationReviewController {
     @Autowired
     private ObservationReviewService observationReviewService;
-
-    @GetMapping("list-observation-review")
+    // hien thị đánh giá chi tiết
+    @GetMapping("/view-evaluation-observation-review")
+    public ResponseEntity<ApiResponse> evaluationObservationReivewDetail(@RequestParam(name = "slotId") Integer slotId,
+                                                                         @RequestParam(name = "accountId") Integer accountId) {
+        return ResponseEntity.ok().body(observationReviewService.viewMyEvaluationDetail(slotId, accountId));
+    }
+    //danh sach các reiview trong kì mà giảng viên phải đi dự giờ
+    @GetMapping("/list-observation-review")
     public ResponseEntity<ApiResponse> listObservationReview(@RequestParam(name = "campusId") Integer campusId,
                                                              @RequestParam(name = "semesterId") Integer semesterId,
                                                              @RequestParam(name = "accountId") Integer accountId) {
         return ResponseEntity.ok().body(observationReviewService.listObservationReviewBySemester(campusId, semesterId, accountId));
     }
-
+    //nhập phiếu đánh giá
     @PostMapping("/create-observation-review")
     public ResponseEntity<ApiResponse> createObservationReview(@RequestBody @Valid ObservationReviewRequest observationReviewRequest) {
         return ResponseEntity.ok().body(observationReviewService.createObservationReview(observationReviewRequest));
