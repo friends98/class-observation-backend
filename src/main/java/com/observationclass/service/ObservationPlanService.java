@@ -51,6 +51,10 @@ public class ObservationPlanService {
 
     @Autowired
     ObservationPlanDao observationPlanDao;
+    public ApiResponse getStatusPlanById(Integer planId) {
+        Optional<ObservationPlan> opObservationPlan=observationPlanRepository.findByIdAndDeleteFlag(planId,Constants.DELETE_NONE);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, opObservationPlan.get().getPlanStatus());
+    }
 
     public ApiResponse approveObservationPlan(Integer planId,Integer status){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.
@@ -107,7 +111,7 @@ public class ObservationPlanService {
         });
         Collections.reverse(lstObservationSlot);
         observationSlotRepository.saveAll(lstObservationSlot);
-        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, observationPlan.getId());
     }
 
 

@@ -27,6 +27,13 @@ public class ObservationReviewController {
                                                              @RequestParam(name = "accountId") Integer accountId) {
         return ResponseEntity.ok().body(observationReviewService.listObservationReviewBySemester(campusId, semesterId, accountId));
     }
+    // danh sach cac kết quả của giảng viên đó trong kì học
+    @GetMapping("/list-result-observation-review")
+    public ResponseEntity<ApiResponse> listResultObservationReview(@RequestParam(name = "campusId") Integer campusId,
+                                                             @RequestParam(name = "semesterId") Integer semesterId,
+                                                             @RequestParam(name = "accountId") Integer accountId) {
+        return ResponseEntity.ok().body(observationReviewService.listResultObservationReviewBySemester(campusId, semesterId, accountId));
+    }
     //nhập phiếu đánh giá
     @PostMapping("/create-observation-review")
     public ResponseEntity<ApiResponse> createObservationReview(@RequestBody @Valid ObservationReviewRequest observationReviewRequest) {

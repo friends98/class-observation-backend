@@ -45,6 +45,15 @@ public class ObservationReviewService {
         }
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listObservationReview);
     }
+    public ApiResponse listResultObservationReviewBySemester( Integer campusId, Integer semesterId,Integer accountId) {
+        List<Object> listObservationReview = new ArrayList<>();
+        if(accountId !=null && campusId!=null && semesterId!=null ){
+            listObservationReview.addAll(observationReviewDao.listObservationReview(campusId,semesterId,accountId));
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listObservationReview);
+    }
+
+
 
     public ApiResponse viewMyEvaluationDetail(Integer slotId, Integer accountId) {
         Optional<ObservationReview> opObservationReview = observationReviewRepository.findByAccountAndObservationSlot(slotId,

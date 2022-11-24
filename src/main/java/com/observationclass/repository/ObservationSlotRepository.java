@@ -11,4 +11,5 @@ public interface ObservationSlotRepository extends JpaRepository<ObservationSlot
     Optional<ObservationSlot> findByObservationPlan(Integer planId);
 
     Optional<ObservationSlot> findByIdAndDeleteFlag(Integer id, Integer deleteFlag);
+
 }

@@ -9,6 +9,7 @@ import com.observationclass.model.request.ObservationSlotRequest;
 import com.observationclass.repository.*;
 import com.observationclass.repository.dao.ObservationSlotDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,10 +63,30 @@ public class ObservationSlotService {
         observationSlot.setHeadSubject(accountRepository.findById(observationSlotRequest.getHeadSubject()).get());
         observationSlot.setAccount1(accountRepository.findById(observationSlotRequest.getAccountId1()).get());
         observationSlot.setAccount2(accountRepository.findById(observationSlotRequest.getAccountId2()).get());
+        observationSlot.setResult(0);
         observationSlot.setObservationPlan(opObservationPlan.get());
         observationSlot.setCreate();
         observationSlotRepository.save(observationSlot);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+    public ApiResponse getObservationSlotDetail(Integer oSlotId){
+        Optional<ObservationSlot> opObservationSlotById = observationSlotRepository.findByIdAndDeleteFlag(oSlotId, Constants.DELETE_NONE);
+        ObservationSlotRequest observationSlotRequest=new ObservationSlotRequest();
+        observationSlotRequest.setId(opObservationSlotById.get().getId());
+        observationSlotRequest.setSlotTime(opObservationSlotById.get().getSlotTime());
+        observationSlotRequest.setSubjectId(opObservationSlotById.get().getSubject().getId());
+        observationSlotRequest.setSlotId(opObservationSlotById.get().getSlot().getId());
+        observationSlotRequest.setRoomId(opObservationSlotById.get().getRoom().getId());
+        observationSlotRequest.setAccountId(opObservationSlotById.get().getAccount().getId());
+        observationSlotRequest.setHeadTraining(opObservationSlotById.get().getHeadTraining().getId());
+        observationSlotRequest.setReason(opObservationSlotById.get().getReason());
+        observationSlotRequest.setClassName(opObservationSlotById.get().getClassName());
+        observationSlotRequest.setAccountId1(opObservationSlotById.get().getAccount1().getId());
+        observationSlotRequest.setAccountId2(opObservationSlotById.get().getAccount2().getId());
+        if(opObservationSlotById.isEmpty()){
+            throw new RecordNotFoundException("Observation slot is empty");
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,observationSlotRequest);
     }
 
     // danh sach slot theo ke hoach

@@ -19,7 +19,12 @@ public class ObservationPlanController {
 
     @Autowired
     private ObservationPlanService observationPlanService;
-
+    // lấy trạng thái 24
+    @GetMapping("/status-observation-plan")
+    public ResponseEntity<ApiResponse> statusObservationPlan(@RequestParam(name="planId")Integer planId){
+        return ResponseEntity.ok().body(observationPlanService.getStatusPlanById(planId));
+    }
+    //24
     @PostMapping("/approve-observation-plan")
     public ResponseEntity<ApiResponse> approveObservationPlan(@RequestParam(name = "planId") Integer planId
             , @RequestParam(name = "statusId") Integer statusId) {

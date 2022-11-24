@@ -12,4 +12,5 @@ import java.util.Optional;
 
 public interface ObservationPlanRepository extends JpaRepository<ObservationPlan,Integer> {
     Optional<ObservationPlan>  findByIdAndPlanStatusAndDeleteFlag(Integer id,Integer planStatus,Integer deleteFlag);
+    Optional<ObservationPlan>  findByIdAndDeleteFlag(Integer id,Integer deleteFlag);
 }
