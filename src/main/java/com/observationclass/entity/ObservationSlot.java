@@ -1,5 +1,6 @@
 package com.observationclass.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +21,12 @@ public class ObservationSlot extends CommonEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id")
+    @JsonIgnore
     private Account account;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "subject_id")
+    @JsonIgnore
     private Subject subject;
 
     @Column(name = "reason")
@@ -34,10 +37,12 @@ public class ObservationSlot extends CommonEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "slot_id", nullable = false)
+    @JsonIgnore
     private Slot slot;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnore
     private Room room;
 
     @Column(name = "class_name")
@@ -45,22 +50,27 @@ public class ObservationSlot extends CommonEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "head_training")
+    @JsonIgnore
     private Account headTraining;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "head_subject")
+    @JsonIgnore
     private Account headSubject;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id1")
+    @JsonIgnore
     private Account account1;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "account_id2")
+    @JsonIgnore
     private Account account2;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "plan_id")
+    @JsonIgnore
     private ObservationPlan observationPlan;
 
     @Column(name="result")

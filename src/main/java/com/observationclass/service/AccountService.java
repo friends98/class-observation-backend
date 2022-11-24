@@ -32,13 +32,15 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmailAndDeleteFlag(email,Constants.NONE_COMPLETE).get();
+        Account account = accountRepository.findByEmailAndDeleteFlag(email, Constants.NONE_COMPLETE).get();
         UserPrincipal userPrincipal = new UserPrincipal(account);
         return userPrincipal;
     }
-    public Account getAccountByEmail(String email){
-      return accountRepository.findByEmailAndDeleteFlag(email,Constants.DELETE_NONE).get();
+
+    public Account getAccountByEmail(String email) {
+        return accountRepository.findByEmailAndDeleteFlag(email, Constants.DELETE_NONE).get();
     }
+
     public boolean checkEmailExist(String email) {
         return accountRepository.existsByEmail(email);
     }
