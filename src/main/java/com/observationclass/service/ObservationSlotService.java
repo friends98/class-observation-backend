@@ -1,19 +1,24 @@
 package com.observationclass.service;
 
 import com.observationclass.common.Constants;
+import com.observationclass.entity.ObservationDetail;
 import com.observationclass.entity.ObservationPlan;
+import com.observationclass.entity.ObservationReview;
 import com.observationclass.entity.ObservationSlot;
 import com.observationclass.exception.RecordNotFoundException;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.ObservationSlotRequest;
+import com.observationclass.model.response.EvaluationObservationReivewDetail;
 import com.observationclass.repository.*;
 import com.observationclass.repository.dao.ObservationSlotDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ObservationSlotService {
@@ -45,6 +50,12 @@ public class ObservationSlotService {
 
     @Autowired
     private ObservationPlanRepository observationPlanRepository;
+
+    @Autowired
+    private ObservationReviewRepository observationReviewRepository;
+
+    @Autowired
+    private ObservationDetailRepository observationDetailRepository;
 
     public ApiResponse createNewSlot(ObservationSlotRequest observationSlotRequest,Integer planId){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(planId);
@@ -96,8 +107,27 @@ public class ObservationSlotService {
     }
     // hiên thi ket qua danh gia của GV đi dự giờ theo  slot id
     public ApiResponse resultObservationSlotById(Integer observationSlotId){
-        List<Object> listResultObservationSlot = observationSlotDao.resultObservationSlot(observationSlotId);
-        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listResultObservationSlot);
+//        List<Object> listResultObservationSlot = observationSlotDao.resultObservationSlot(observationSlotId);
+//        List<ObservationReview> listofResultObservationReview=listResultObservationSlot.stream().map(obj->
+//                                                                (ObservationReview)obj).collect(Collectors.toList());
+        List<ObservationReview> listOfResultObservationReview =
+                observationReviewRepository.findAllByObservationSlotIdAndDeleteFlag(observationSlotId, Constants.DELETE_NONE);
+        List<EvaluationObservationReivewDetail> listOfEvaluationObservationReivewDetail=new ArrayList<>();
+        EvaluationObservationReivewDetail evaluationObservationReivewDetail=null;
+        List<ObservationDetail> listOfObservationDetail = new ArrayList<>();
+        for(ObservationReview observationReview:listOfResultObservationReview){
+            evaluationObservationReivewDetail =new EvaluationObservationReivewDetail();
+            evaluationObservationReivewDetail.setAdvantage(observationReview.getAdvantage());
+            evaluationObservationReivewDetail.setDisadvantage(observationReview.getDisadvantage());
+            evaluationObservationReivewDetail.setComment(observationReview.getComment());
+            listOfObservationDetail=observationDetailRepository.findByObservationReviewId(
+                    observationReview.getId());
+            evaluationObservationReivewDetail.setListOfObservationDetail(listOfObservationDetail);
+            listOfEvaluationObservationReivewDetail.add(evaluationObservationReivewDetail);
+        }
+
+
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listOfEvaluationObservationReivewDetail);
     }
     // đánh giá slot đó đạt hay ko đạt
     public ApiResponse rejectResultObservationSlot(Integer observationSlotId){
