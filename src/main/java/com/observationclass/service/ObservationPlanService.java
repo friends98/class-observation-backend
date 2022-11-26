@@ -7,8 +7,6 @@ import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.ObservationPlanRequest;
 import com.observationclass.model.request.ObservationPlanUpdateRequest;
 import com.observationclass.model.request.ObservationSlotRequest;
-import com.observationclass.model.request.SearchObservationPlanRequest;
-import com.observationclass.model.response.SearchObservationPlanResponse;
 import com.observationclass.repository.*;
 import com.observationclass.repository.dao.ObservationPlanDao;
 import org.springframework.beans.factory.annotation.Autowired;

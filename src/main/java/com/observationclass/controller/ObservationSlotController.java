@@ -19,7 +19,7 @@ public class ObservationSlotController {
     public ResponseEntity<ApiResponse> getDetailObservationSlotById(@RequestParam(name = "oSlotId") Integer oSlotId) {
         return ResponseEntity.ok().body(observationSlotService.getObservationSlotDetail(oSlotId));
     }
-
+    // danh sách slot trong kế hoạch của kì và theo account id của cnbm
     @GetMapping("/list-observation-slot")
     public ResponseEntity<ApiResponse> listObservationSlotBySemester(@RequestParam(name = "semesterId") Integer semesterId,
                                                                      @RequestParam(name = "accountId") Integer accountId) {

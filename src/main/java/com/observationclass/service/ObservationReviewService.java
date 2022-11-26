@@ -37,7 +37,7 @@ public class ObservationReviewService {
     private ObservationReviewDao observationReviewDao;
 
 
-
+    // danh sach review của giảng vien trong kì học đó
     public ApiResponse listObservationReviewBySemester( Integer campusId, Integer semesterId,Integer accountId) {
         List<Object> listObservationReview = new ArrayList<>();
         if(accountId !=null && campusId!=null && semesterId!=null ){

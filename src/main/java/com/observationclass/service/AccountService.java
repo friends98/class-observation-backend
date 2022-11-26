@@ -2,13 +2,9 @@ package com.observationclass.service;
 
 import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
-import com.observationclass.entity.Role;
-import com.observationclass.model.ApiResponse;
-import com.observationclass.model.request.AccountRequest;
 import com.observationclass.model.response.DropdownListResponse;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.security.UserPrincipal;
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service

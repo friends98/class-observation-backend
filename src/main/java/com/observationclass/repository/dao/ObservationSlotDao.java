@@ -71,7 +71,27 @@ public class ObservationSlotDao {
         return listObservationReview;
 
     }
+    // hien tai not used
     public List<Object> resultObservationSlot(Integer observationSlotId){
+        List<Object> resultObservationSlot =new ArrayList<>();
+        Session session = entityManager.unwrap(Session.class);
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT acc.user_name AS lectureName,ore.advantage AS advantage,ore.disadvantage AS disadvantage,\n" +
+                "ore.comment AS comment,ore.total_point AS totalPoint\n" +
+                "FROM observation_review ore\n" +
+                "LEFT JOIN observation_slot os ON os.id=ore.observation_slot_id\n" +
+                "LEFT JOIN account acc ON os.account_id = acc.id\n" +
+                "LEFT JOIN account acc1 ON acc1.id = ore.account_id\n" +
+                "WHERE os.id=:observationSlotId");
+        NativeQuery<ResultObservationSlotResponse> query = session.createNativeQuery(sb.toString());
+        Utils.addScalr(query,ResultObservationSlotResponse.class);
+        query.setParameter("observationSlotId", observationSlotId);
+        session.close();
+        resultObservationSlot.addAll(query.getResultList());
+        return resultObservationSlot;
+    }
+    // hien tai not used
+    public List<Object> resultObservationSlot1(Integer observationSlotId){
         List<Object> resultObservationSlot =new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb = new StringBuilder();
