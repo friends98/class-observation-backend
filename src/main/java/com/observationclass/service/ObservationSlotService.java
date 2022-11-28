@@ -141,6 +141,8 @@ public class ObservationSlotService {
     // danh sach cac slot cua CNBM theo kì
     public ApiResponse listObservationSlotBySemester(Integer semesterId,Integer accountId){
         List<Object> listObservationSlot = observationSlotDao.listObservationSlotBySemester(semesterId, accountId);
+        //List<ObservationSlot> listObservationSlot =
+                observationSlotRepository.findAllByHeadSubjectAndSemester(semesterId,accountId);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listObservationSlot);
     }
 

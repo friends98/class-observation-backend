@@ -10,16 +10,17 @@ import java.sql.Timestamp;
 public class SearchObservationSlotResponse {
     private Integer id;
     private Integer planId;
-    private String userName;
+    private Integer slotId;
     private Timestamp slotTime;
-    private String slot;
-    private String roomName;
-    private String subjectCode;
+    //private String slot;
+    private Integer accountId;
+    private Integer roomId;
+    private Integer subjectId;
     private String subjectName;
     private String className;
     private String reason;
-    private String headTraining;
-    private String lecture1;
-    private String lecture2;
+    private Integer accountId1;
+    private Integer accountId2;
+    private Integer result;
 
 }
