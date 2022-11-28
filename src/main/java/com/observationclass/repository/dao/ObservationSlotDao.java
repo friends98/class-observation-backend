@@ -34,7 +34,8 @@ public class ObservationSlotDao {
                 "LEFT JOIN slot ON slot.id = os.slot_id\n" +
                 "LEFT JOIN room ON room.id = os.room_id\n" +
                 "LEFT JOIN subject ON subject.id = os.subject_id\n" +
-                "WHERE op.plan_status=0 and os.plan_id=:planId");
+
+                "WHERE os.plan_id=:planId");
         NativeQuery<SearchObservationSlotResponse> query = session.createNativeQuery(sb.toString());
         Utils.addScalr(query,SearchObservationSlotResponse.class);
         query.setParameter("planId", planId);
@@ -47,20 +48,31 @@ public class ObservationSlotDao {
         List<Object> listObservationReview =new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT os.id as id,os.plan_id as planId,acc.user_name as userName,os.slot_time as slotTime,slot.slot_range as slot,\n" +
-                "room.room_name as roomName,subject.subject_code as subjectCode,subject.subject_name as subjectName,\n" +
-                "os.class_name as className,os.reason as reason,\n" +
-                "acc0.user_name as headTraining,acc1.user_name as lecture1,acc2.user_name lecture2\n" +
-                "FROM observation_slot os\n" +
-                "LEFT JOIN account acc ON os.account_id = acc.id\n" +
-                "LEFT JOIN account acc0 ON os.head_training = acc0.id \n" +
-                "LEFT JOIN account acc1 ON os.account_id1 = acc1.id\n" +
-                "LEFT JOIN account acc2 ON os.account_id2 = acc2.id\n" +
-                "LEFT JOIN observation_plan op ON op.id = os.plan_id\n" +
-                "LEFT JOIN slot ON slot.id = os.slot_id\n" +
-                "LEFT JOIN room ON room.id = os.room_id\n" +
-                "LEFT JOIN subject ON subject.id = os.subject_id\n" +
-                "WHERE op.plan_status=0 and op.semester_id=:semesterId and os.head_subject=:accountId");
+//        sb.append("SELECT os.id as id,os.plan_id as planId,acc.user_name as userName,os.slot_time as slotTime,slot.slot_range as slot,\n" +
+//                "room.room_name as roomName,subject.subject_code as subjectCode,subject.subject_name as subjectName,\n" +
+//                "os.class_name as className,os.reason as reason,\n" +
+//                "acc0.user_name as headTraining,acc1.user_name as lecture1,acc2.user_name lecture2\n" +
+//                "FROM observation_slot os\n" +
+//                "LEFT JOIN account acc ON os.account_id = acc.id\n" +
+//                "LEFT JOIN account acc0 ON os.head_training = acc0.id \n" +
+//                "LEFT JOIN account acc1 ON os.account_id1 = acc1.id\n" +
+//                "LEFT JOIN account acc2 ON os.account_id2 = acc2.id\n" +
+//                "LEFT JOIN observation_plan op ON op.id = os.plan_id\n" +
+//                "LEFT JOIN slot ON slot.id = os.slot_id\n" +
+//                "LEFT JOIN room ON room.id = os.room_id\n" +
+//                "LEFT JOIN subject ON subject.id = os.subject_id\n" +
+//                "WHERE op.semester_id=:semesterId and os.head_subject=:accountId");
+        sb.append("SELECT os.id as id,os.account_id as accountId,os.plan_id as planId,os.slot_time as slotTime,os" +
+                ".slot_id as " +
+                "slotId," +
+                "os" +
+                ".subject_id as subjectId,s.subject_name  as subjectName,\n" +
+                "os.room_id as roomId,os.reason as reason,os.class_name as className,os.account_id1 as accountId1,os" +
+                ".account_id2 as accountId2,os.\"result\" as result\n" +
+                "FROM observation_slot os \n" +
+                "LEFT JOIN observation_plan op ON os.plan_id =op.id\n" +
+                "LEFT JOIN subject s ON s.id =os.subject_id \n" +
+                "WHERE op.semester_id =:semesterId AND os.head_subject =:accountId AND os.delete_flag =0");
         NativeQuery<SearchObservationSlotResponse> query = session.createNativeQuery(sb.toString());
         Utils.addScalr(query,SearchObservationSlotResponse.class);
         query.setParameter("semesterId", semesterId);
