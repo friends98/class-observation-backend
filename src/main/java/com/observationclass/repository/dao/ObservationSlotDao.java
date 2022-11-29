@@ -1,6 +1,7 @@
 package com.observationclass.repository.dao;
 
 import com.observationclass.model.response.ResultObservationSlotResponse;
+import com.observationclass.model.response.SearchObservationSlotByPlan;
 import com.observationclass.model.response.SearchObservationSlotResponse;
 import com.observationclass.utils.Utils;
 import org.hibernate.Session;
@@ -21,10 +22,11 @@ public class ObservationSlotDao {
         List<Object> listOfObservationSlot =new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb = new StringBuilder();
-        sb.append("SELECT os.id as id,os.plan_id as planId,acc.user_name as userName,os.slot_time as slotTime,slot.slot_range as slot,\n" +
+        sb.append("SELECT os.id as id,os.plan_id as planId,acc.user_name as accountName,os.slot_time as slotTime,slot" +
+                ".slot_range as slot,\n" +
                 "room.room_name as roomName,subject.subject_code as subjectCode,subject.subject_name as subjectName,\n" +
                 "os.class_name as className,os.reason as reason,\n" +
-                "acc0.user_name as headTraining,acc1.user_name as lecture1,acc2.user_name lecture2\n" +
+                "acc1.user_name as accountName1,acc2.user_name accountName2,os.result as result\n" +
                 "FROM observation_slot os\n" +
                 "LEFT JOIN account acc ON os.account_id = acc.id\n" +
                 "LEFT JOIN account acc0 ON os.head_training = acc0.id \n" +
@@ -36,8 +38,8 @@ public class ObservationSlotDao {
                 "LEFT JOIN subject ON subject.id = os.subject_id\n" +
 
                 "WHERE os.plan_id=:planId");
-        NativeQuery<SearchObservationSlotResponse> query = session.createNativeQuery(sb.toString());
-        Utils.addScalr(query,SearchObservationSlotResponse.class);
+        NativeQuery<SearchObservationSlotByPlan> query = session.createNativeQuery(sb.toString());
+        Utils.addScalr(query,SearchObservationSlotByPlan.class);
         query.setParameter("planId", planId);
         session.close();
         listOfObservationSlot.addAll(query.getResultList());
