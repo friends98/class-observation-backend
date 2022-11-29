@@ -130,10 +130,10 @@ public class ObservationSlotService {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, listOfEvaluationObservationReivewDetail);
     }
     // đánh giá slot đó đạt hay ko đạt
-    public ApiResponse rejectResultObservationSlot(Integer observationSlotId){
+    public ApiResponse passResultObservationSlot(Integer observationSlotId,Integer pass){
         Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(observationSlotId,
                 Constants.DELETE_NONE);
-        opObservationSlot.get().setResult(Constants.REJECT);
+        opObservationSlot.get().setResult(pass);
         observationSlotRepository.save(opObservationSlot.get());
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
 

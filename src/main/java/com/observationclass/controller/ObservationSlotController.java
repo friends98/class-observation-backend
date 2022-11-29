@@ -43,8 +43,9 @@ public class ObservationSlotController {
 
     // phe duyet ket qua slot
     @PostMapping("/pass-observation-slot")
-    public ResponseEntity<ApiResponse> rejectObservationSlot(@RequestParam(name = "oSlotId") Integer observationSlotId) {
-        return ResponseEntity.ok().body(observationSlotService.rejectResultObservationSlot(observationSlotId));
+    public ResponseEntity<ApiResponse> rejectObservationSlot(@RequestParam(name = "oSlotId") Integer observationSlotId,
+                                                             @RequestParam(name="pass")Integer pass) {
+        return ResponseEntity.ok().body(observationSlotService.passResultObservationSlot(observationSlotId,pass));
     }
     // tao moi slot theo plan id
     @PostMapping("/add-new-slot")
