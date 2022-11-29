@@ -19,6 +19,7 @@ public class Constants {
     public static final Integer NEW_PLAN = 0;
     public static final Integer APPROVE = 0;
     public static final Integer REJECT = 1;
+    public static final Integer PASS = 1;
 
     //reiview
     public static final Integer SAVE_DRAFF=0;
