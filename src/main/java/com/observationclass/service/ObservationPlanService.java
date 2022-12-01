@@ -51,7 +51,10 @@ public class ObservationPlanService {
     ObservationPlanDao observationPlanDao;
     public ApiResponse getStatusPlanById(Integer planId) {
         Optional<ObservationPlan> opObservationPlan=observationPlanRepository.findByIdAndDeleteFlag(planId,Constants.DELETE_NONE);
-        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, opObservationPlan.get().getPlanStatus());
+        if(opObservationPlan.isPresent()){
+            return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, opObservationPlan.get().getPlanStatus());
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, 0);
     }
 
     public ApiResponse approveObservationPlan(Integer planId,Integer status){

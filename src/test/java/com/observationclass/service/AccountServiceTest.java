@@ -29,7 +29,7 @@ class AccountServiceTest {
     private AccountService accountService;
 
     @Test
-    void testGetAccountByEmail() {
+    void testGetAccountByEmail_WhenExist() {
         String email="quang41096@fpt.edu.vn";
         Account account = new Account();
         account.setEmail(email);
@@ -39,10 +39,60 @@ class AccountServiceTest {
     }
     @Test
     void testcheckEmailExist() {
+        String email="ngocquang2000fpt@gmail.com";
+        Mockito.when(accountRepository.existsByEmail(email)).thenReturn(true);
+        boolean checkEmail = accountService.checkEmailExist(email);
+        assertEquals(true,checkEmail);
+    }
+    @Test
+    void testcheckEmailNotExist() {
+        String email="abc2000fpt@gmail.com";
+        Mockito.when(accountRepository.existsByEmail(email)).thenReturn(false);
+        boolean checkEmail = accountService.checkEmailExist(email);
+        assertEquals(false,checkEmail);
     }
 
     @Test
     void testAccountByCampus() {
+        Integer campusId=1;
+        String email="ngoc";
+        List<Object> lstAccountByCampusId1 = new ArrayList<>();
+        List<DropdownListResponse> lstAccountByCampusId2 = new ArrayList<>();
+        lstAccountByCampusId1.add(new Object());
+        lstAccountByCampusId1.add(new Object());
+        class obj implements DropdownListResponse{
+
+            @Override
+            public Integer getValue() {
+                return null;
+            }
+
+            @Override
+            public Integer setValue(Integer value) {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String setName() {
+                return null;
+            }
+        }
+        lstAccountByCampusId2.add(new obj());
+        lstAccountByCampusId2.add(new obj());
+
+
+
+        Mockito.when(accountRepository.findAllByCampusAndDelete(1,email,0)).thenReturn(lstAccountByCampusId2);
+        List<DropdownListResponse> lstAccountByCampusId = accountService.listAccountByCampus(1, email);
+        assertEquals(2,lstAccountByCampusId.size());
+    }
+    @Test
+    void testAccount_NotExist_Campus() {
         Integer campusId=1;
         String email="ngoc";
         List<DropdownListResponse> lstAccountByCampusId1 = new ArrayList<>();
