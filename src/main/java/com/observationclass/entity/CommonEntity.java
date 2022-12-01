@@ -1,10 +1,7 @@
 package com.observationclass.entity;
 
 import com.observationclass.utils.Utils;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -15,6 +12,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

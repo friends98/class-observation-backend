@@ -1,10 +1,7 @@
 package com.observationclass.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,12 +11,13 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
 @Table(name = "account", uniqueConstraints = {
         @UniqueConstraint(columnNames = "user_name"),
         @UniqueConstraint(columnNames = "email")
 })
-public class Account extends CommonEntity{
+public class Account extends CommonEntity {
 
     @Column(name = "user_name")
     private String userName;
@@ -27,12 +25,12 @@ public class Account extends CommonEntity{
     @Column(name = "email")
     private String email;
 
-    @Column(name="campus_id")
+    @Column(name = "campus_id")
     private Integer campusId;
 
     @ManyToMany(
             //bi loi o day
-            fetch=FetchType.EAGER)
+            fetch = FetchType.EAGER)
     @JoinTable(
             name = "account_role",
             joinColumns = {@JoinColumn(name = "account_id")},
