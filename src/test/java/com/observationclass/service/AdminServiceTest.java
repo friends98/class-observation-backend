@@ -137,10 +137,10 @@ class AdminServiceTest {
         roles.add(new Role());
         account.setRoles(roles);
         AccountRequest accountRequest = new AccountRequest();
-
+        accountRequest.setId(1);
 
         Mockito.when(accountRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(account));
-        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(Optional.ofNullable(account).get());
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
         ApiResponse apiResponseActual = adminService.updateAccount(accountRequest);
         assertThat(apiResponseActual).isNotNull();
 
