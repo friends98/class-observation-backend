@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class EvaluationObservationReivewDetail {
+    private String lessonName;
     private String advantage;
     private String disadvantage;
     private String comment;

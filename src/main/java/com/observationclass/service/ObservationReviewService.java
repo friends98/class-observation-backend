@@ -48,7 +48,7 @@ public class ObservationReviewService {
     public ApiResponse listResultObservationReviewBySemester( Integer campusId, Integer semesterId,Integer accountId) {
         List<Object> listObservationReview = new ArrayList<>();
         if(accountId !=null && campusId!=null && semesterId!=null ){
-            listObservationReview.addAll(observationReviewDao.listObservationReview(campusId,semesterId,accountId));
+            listObservationReview.addAll(observationReviewDao.listResultObservationReview(campusId,semesterId,accountId));
         }
         return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listObservationReview);
     }
@@ -61,6 +61,7 @@ public class ObservationReviewService {
         List<ObservationDetail> listOfObservationDetail = observationDetailRepository.findByObservationReviewId(
                 opObservationReview.get().getId());
         EvaluationObservationReivewDetail evaluationObservationReivewDetail=new EvaluationObservationReivewDetail();
+        evaluationObservationReivewDetail.setLessonName(opObservationReview.get().getLessonName());
         evaluationObservationReivewDetail.setAdvantage(opObservationReview.get().getAdvantage());
         evaluationObservationReivewDetail.setDisadvantage(opObservationReview.get().getDisadvantage());
         evaluationObservationReivewDetail.setComment(opObservationReview.get().getComment());
