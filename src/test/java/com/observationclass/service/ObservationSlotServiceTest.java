@@ -154,13 +154,38 @@ class ObservationSlotServiceTest {
         ApiResponse apiResponseActual =observationSlotService.passResultObservationSlot(1,1);
         assertThat(apiResponseActual).isNotNull();
     }
-
+    // pass
     @Test
     void listObservationSlotBySemester() {
-
+        List<Object> listOfObject = new ArrayList<>();
+        Mockito.when(observationSlotDao.listObservationSlotBySemester(anyInt(),anyInt())).thenReturn(listOfObject);
+        ApiResponse apiResponseActual =observationSlotService.listObservationSlotBySemester(1,1);
+        assertThat(apiResponseActual).isNotNull();
     }
 
     @Test
     void updateObservationSlot() {
+        ObservationSlot observationSlot = new ObservationSlot();
+        ObservationSlotRequest observationSlotRequest=new ObservationSlotRequest();
+        observationSlotRequest.setId(1);
+        observationSlotRequest.setAccountId(1);
+        observationSlotRequest.setAccountId2(1);
+        observationSlotRequest.setAccountId1(1);
+        observationSlotRequest.setRoomId(1);
+        observationSlotRequest.setSlotId(1);
+        observationSlotRequest.setSubjectId(1);
+        observationSlotRequest.setHeadTraining(1);
+        observationSlotRequest.setHeadSubject(1);
+        Account account = new Account();
+        Room room = new Room();
+        Subject subject = new Subject();
+        Slot slot = new Slot();
+        Mockito.when(roomRepository.findById(anyInt())).thenReturn(Optional.ofNullable(room));
+        Mockito.when(slotRepository.findById(anyInt())).thenReturn(Optional.ofNullable(slot));
+        Mockito.when(accountRepository.findById(anyInt())).thenReturn(Optional.ofNullable(account));
+        Mockito.when(subjectRepository.findById(anyInt())).thenReturn(Optional.ofNullable(subject));
+        Mockito.when(observationSlotRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(observationSlot));
+        ApiResponse apiReponseActual =observationSlotService.updateObservationSlot(observationSlotRequest);
+        assertThat(apiReponseActual).isNotNull();
     }
 }
