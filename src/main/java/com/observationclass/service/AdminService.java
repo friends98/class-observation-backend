@@ -68,7 +68,7 @@ public class AdminService {
 
     public ApiResponse updateAccount(AccountRequest accountRequest) {
         Optional<Account> opAccount = accountRepository.findByIdAndDeleteFlag(accountRequest.getId(), Constants.DELETE_NONE);
-        if (opAccount.isPresent()) {
+        if (opAccount.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }
         setAccount(opAccount.get(), accountRequest);
@@ -81,6 +81,7 @@ public class AdminService {
         account.setUserName(accountRequest.getUserName());
         account.setEmail(accountRequest.getEmail());
         account.setCampusId(accountRequest.getCampusId());
+        account.setDepartmentId(accountRequest.getDepartmentId());
         account.getRoles().addAll(accountRequest.getRoles().stream().map(r -> {
             Role role = roleService.findRoleById(r.getId());
             role.getAccounts().add(account);

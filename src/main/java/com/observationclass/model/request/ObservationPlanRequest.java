@@ -14,7 +14,7 @@ public class ObservationPlanRequest {
 
     private Integer campusId;
 
-    private Integer departmentId;
+    private Integer accountId;
 
     private Integer planStatus;
 

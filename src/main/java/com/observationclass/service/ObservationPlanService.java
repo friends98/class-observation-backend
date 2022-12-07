@@ -79,8 +79,8 @@ public class ObservationPlanService {
         ObservationPlan observationPlan = new ObservationPlan();
         Optional<Campus> opCampus = campusRepository.findById(observationPlanRequest.getCampusId());
         Optional<Semester> opSemester = semesterRepository.findById(observationPlanRequest.getSemesterId());
-        Optional<Department> opDepartment = departmentRepository.findByIdAndCampusId(observationPlanRequest.
-                getDepartmentId(), observationPlanRequest.getCampusId());
+        Integer departmentId = getDepartmentByAccount(observationPlanRequest.getAccountId());
+        Optional<Department> opDepartment = departmentRepository.findByIdAndCampusId(departmentId, observationPlanRequest.getCampusId());
         
         if (opCampus.isEmpty() || opSemester.isEmpty() || opDepartment.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
@@ -185,6 +185,14 @@ public class ObservationPlanService {
 
     public Room getRoomById(Integer id) {
         return roomRepository.findById(id).get();
+    }
+
+    public Integer getDepartmentByAccount(Integer accountId){
+        Optional<Account> opAccount=accountRepository.findById(accountId);
+        if(!opAccount.isPresent()){
+            throw  new RecordNotFoundException("Account not found");
+        }
+        return opAccount.get().getDepartmentId();
     }
 }
 
