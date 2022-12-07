@@ -22,9 +22,12 @@ public class AccountDao {
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb =new StringBuilder();
         sb.append("SELECT acc.id as id ,acc.user_name as userName,\n" +
-                "acc.email as email,campus.campus_name as campusName from account acc \n" +
+                "acc.email as email,campus.campus_name as campusName,department.department_name as departmentName\n" +
+                "from account acc " +
+                "\n" +
                 "LEFT JOIN account_role accr ON accr.account_id = acc.id\n" +
                 "LEFT JOIN campus campus ON acc.campus_id=campus.id\n" +
+                "LEFT JOIN department department ON department.id=acc.department_id\n" +
                 "WHERE acc.delete_flag=0");
         if(roleId!=null){
             sb.append(" AND accr.role_id=:roleId");

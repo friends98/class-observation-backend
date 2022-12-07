@@ -16,5 +16,6 @@ public class AccountRequest {
     private String email;
     @NotNull
     private Integer campusId;
+    private Integer departmentId;
     private Set<Role> roles = new HashSet<>();
 }

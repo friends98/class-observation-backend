@@ -10,4 +10,5 @@ public class AccountResponse {
     private String userName;
     private String email;
     private String campusName;
+    private String departmentName;
 }

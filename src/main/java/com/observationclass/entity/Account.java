@@ -28,6 +28,9 @@ public class Account extends CommonEntity {
     @Column(name = "campus_id")
     private Integer campusId;
 
+    @Column(name="department_id")
+    private Integer departmentId;
+
     @ManyToMany(
             //bi loi o day
             fetch = FetchType.EAGER)
