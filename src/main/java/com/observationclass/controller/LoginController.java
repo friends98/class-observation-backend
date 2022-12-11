@@ -47,11 +47,13 @@ public class LoginController {
         String email = payload.getEmail();
 
         if (!accountService.checkEmailExist(email)) {
-            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+            //throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+            return ResponseEntity.ok().body(new AuthResponse(null,null,null,null,null));
         }
         Account account = accountService.getAccountByEmail(email);
         if (account.getCampusId() != token.getCampusId()) {
-            throw new RecordNotFoundException("Campus " + Constants.ERROR);
+            return ResponseEntity.ok().body(new AuthResponse(account.getUserName(),null,null,account.getId(),
+                    account.getRoles()));
         }
         String accessToken = jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
         return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), accessToken, account.getCampusId(),account.getId(), account.getRoles()));

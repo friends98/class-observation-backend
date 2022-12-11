@@ -56,6 +56,15 @@ public class ObservationSlotService {
 
     @Autowired
     private ObservationDetailRepository observationDetailRepository;
+    public ApiResponse getResultSlot(Integer slotId){
+        Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(slotId, Constants.DELETE_NONE);
+        if(!opObservationSlot.isPresent()){
+            throw new RecordNotFoundException("Observation slot not found");
+        }
+        Integer result =opObservationSlot.get().getResult();
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, result);
+
+    }
 
     public ApiResponse createNewSlot(ObservationSlotRequest observationSlotRequest,Integer planId){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(planId);
