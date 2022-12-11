@@ -53,4 +53,8 @@ public class ObservationSlotController {
                                                                     , @RequestParam(name = "planId") Integer planId) {
         return ResponseEntity.ok().body(observationSlotService.createNewSlot(observationSlotRequest, planId));
     }
+    @GetMapping("/status-observation-slot")
+    public ResponseEntity<ApiResponse> statusObservationSlotById(@RequestParam(name = "slotId") Integer slotId) {
+        return ResponseEntity.ok().body(observationSlotService.getResultSlot(slotId));
+    }
 }
