@@ -111,19 +111,29 @@ class AdminServiceTest {
         accountRequest.setEmail("ngocquang@gmail.com");
         accountRequest.setCampusId(1);
         accountRequest.setUserName("dao ngoc quang");
-
         Account account = new Account();
         account.setUserName(accountRequest.getUserName());
         account.setEmail(accountRequest.getEmail());
         account.setCampusId(accountRequest.getCampusId());
-
-
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
-
         ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
-
         assertThat(apiResponseActual).isNotNull();
     }
+    @Test
+    void testAddNewAccount_WhenEmail_Exits() throws Exception {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setEmail("ngocquang@gmail.com");
+        accountRequest.setCampusId(1);
+        accountRequest.setUserName("dao ngoc quang");
+        Account account = new Account();
+        account.setUserName(accountRequest.getUserName());
+        account.setEmail(accountRequest.getEmail());
+        account.setCampusId(accountRequest.getCampusId());
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
+        ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
+        assertThat(apiResponseActual).isNotNull();
+    }
+
 
     @Test
     void testUpdateAccount_WhenValid() throws Exception {

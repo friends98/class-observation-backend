@@ -68,7 +68,7 @@ public class AdminService {
 
     public ApiResponse updateAccount(AccountRequest accountRequest) {
         Optional<Account> opAccount = accountRepository.findByIdAndDeleteFlag(accountRequest.getId(), Constants.DELETE_NONE);
-        if (opAccount.isPresent()) {
+        if (opAccount.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }
         setAccount(opAccount.get(), accountRequest);
