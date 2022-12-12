@@ -12,8 +12,9 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
     Optional<Subject> findByIdAndCampusId(Integer id, Integer campusId);
-    @Query(value = "SELECT s.id as value,s.subject_code as name FROM subject s WHERE s.campus_id =:campusId AND s.subject_code " +
-            "like Upper(Concat('%',:subCode,'%'))", nativeQuery = true)
-    List<DropdownListResponse> findAllAndCampusId(Integer campusId,String subCode);
+    @Query(value = "SELECT s.id as value,s.subject_name as name FROM subject s WHERE s.campus_id =:campusId AND " +
+            "LOWER (s.subject_name)" +
+            "like LOWER (Concat('%',:subName,'%'))", nativeQuery = true)
+    List<DropdownListResponse> findAllAndCampusId(Integer campusId,String subName);
 
 }

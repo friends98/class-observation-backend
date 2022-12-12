@@ -14,8 +14,8 @@ public class SubjectService {
     @Autowired
     private SubjectRepository subjectRepository;
 
-    public List<DropdownListResponse> getSubjectDropdownList(Integer campusId, String subCode) {
-        List<DropdownListResponse> listSubject = subjectRepository.findAllAndCampusId(campusId, subCode);
+    public List<DropdownListResponse> getSubjectDropdownList(Integer campusId, String subName) {
+        List<DropdownListResponse> listSubject = subjectRepository.findAllAndCampusId(campusId, subName);
         if (listSubject == null) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }
