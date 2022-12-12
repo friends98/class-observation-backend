@@ -177,4 +177,15 @@ public class ObservationSlotService {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
     }
 
+    public ApiResponse deleteObservationSlotById(Integer slotId) {
+        Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(slotId, Constants.DELETE_NONE);
+        if (!opObservationSlot.isPresent()) {
+            throw new RecordNotFoundException("Record not found");
+        }
+        ObservationSlot observationSlot = opObservationSlot.get();
+        observationSlot.setDeleteFlag(Constants.DELETE_TRUE);
+        observationSlotRepository.save(observationSlot);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, null);
+    }
+
 }

@@ -57,4 +57,9 @@ public class ObservationSlotController {
     public ResponseEntity<ApiResponse> statusObservationSlotById(@RequestParam(name = "slotId") Integer slotId) {
         return ResponseEntity.ok().body(observationSlotService.getResultSlot(slotId));
     }
+
+    @PostMapping("/delete-observation-slot")
+    public ResponseEntity<ApiResponse> deleteObservationSlot(@RequestParam(name = "slotId") Integer slotId) {
+        return ResponseEntity.ok().body(observationSlotService.deleteObservationSlotById(slotId));
+    }
 }
