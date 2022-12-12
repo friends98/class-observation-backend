@@ -2,6 +2,7 @@ package com.observationclass.service;
 
 import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
+import com.observationclass.model.ERole;
 import com.observationclass.model.response.DropdownListResponse;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.security.UserPrincipal;
@@ -44,6 +45,10 @@ public class AccountService implements UserDetailsService {
         List<DropdownListResponse> listAccountByCampus = accountRepository.findAllByCampusAndDelete(campusId, email, Constants.DELETE_NONE);
         return listAccountByCampus;
     }
-
+    public List<DropdownListResponse> listAccountByCampusAndRole(Integer campusId,String email) {
+        List<DropdownListResponse> listAccountByCampusAndRole = accountRepository.findAllByCampusIdAndRole(campusId,
+                email, Constants.DELETE_NONE, Constants.ROLE_TEACHER);
+        return listAccountByCampusAndRole;
+    }
 
 }
