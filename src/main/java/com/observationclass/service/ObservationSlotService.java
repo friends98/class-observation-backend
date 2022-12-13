@@ -69,7 +69,7 @@ public class ObservationSlotService {
     public ApiResponse createNewSlot(ObservationSlotRequest observationSlotRequest,Integer planId){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(planId);
         if(opObservationPlan.isEmpty()){
-            throw new RecordNotFoundException("Not found optional Observation Plan");
+            throw new RecordNotFoundException("Not found Observation Plan");
         }
         ObservationSlot observationSlot = new ObservationSlot();
         observationSlot.setAccount(accountRepository.findById(observationSlotRequest.getAccountId()).get());
@@ -78,6 +78,7 @@ public class ObservationSlotService {
         observationSlot.setSlotTime(observationSlotRequest.getSlotTime());
         observationSlot.setSlot(slotRepository.findById(observationSlotRequest.getSlotId()).get());
         observationSlot.setRoom(roomRepository.findById(observationSlotRequest.getRoomId()).get());
+        observationSlot.setObservationPlan(opObservationPlan.get());
         observationSlot.setClassName(observationSlotRequest.getClassName());
         observationSlot.setHeadTraining(accountRepository.findById(observationSlotRequest.getHeadTraining()).get());
         observationSlot.setHeadSubject(accountRepository.findById(observationSlotRequest.getHeadSubject()).get());
