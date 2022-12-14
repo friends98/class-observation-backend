@@ -12,8 +12,7 @@ import com.observationclass.repository.dao.AccountDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +70,16 @@ public class AdminService {
         if (opAccount.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }
-        setAccount(opAccount.get(), accountRequest);
+        Account account =opAccount.get();
+        account.setUserName(accountRequest.getUserName());
+        account.setEmail(accountRequest.getEmail());
+        account.setCampusId(accountRequest.getCampusId());
+        account.setDepartmentId(accountRequest.getDepartmentId());
+        List<Role> listOfRole = new ArrayList<>();
+        for(Role  r:accountRequest.getRoles()){
+            listOfRole.add(r);
+        }
+        account.setRoles(new HashSet<>(listOfRole));
         opAccount.get().setUpdate();
         accountRepository.save(opAccount.get());
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
