@@ -56,11 +56,20 @@ public class ObservationSlotService {
 
     @Autowired
     private ObservationDetailRepository observationDetailRepository;
+    public ApiResponse getResultSlot(Integer slotId){
+        Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(slotId, Constants.DELETE_NONE);
+        if(!opObservationSlot.isPresent()){
+            throw new RecordNotFoundException("Observation slot not found");
+        }
+        Integer result =opObservationSlot.get().getResult();
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.SUCCESS, result);
+
+    }
 
     public ApiResponse createNewSlot(ObservationSlotRequest observationSlotRequest,Integer planId){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.findById(planId);
         if(opObservationPlan.isEmpty()){
-            throw new RecordNotFoundException("Not found optional Observation Plan");
+            throw new RecordNotFoundException("Not found Observation Plan");
         }
         ObservationSlot observationSlot = new ObservationSlot();
         observationSlot.setAccount(accountRepository.findById(observationSlotRequest.getAccountId()).get());
@@ -69,6 +78,7 @@ public class ObservationSlotService {
         observationSlot.setSlotTime(observationSlotRequest.getSlotTime());
         observationSlot.setSlot(slotRepository.findById(observationSlotRequest.getSlotId()).get());
         observationSlot.setRoom(roomRepository.findById(observationSlotRequest.getRoomId()).get());
+        observationSlot.setObservationPlan(opObservationPlan.get());
         observationSlot.setClassName(observationSlotRequest.getClassName());
         observationSlot.setHeadTraining(accountRepository.findById(observationSlotRequest.getHeadTraining()).get());
         observationSlot.setHeadSubject(accountRepository.findById(observationSlotRequest.getHeadSubject()).get());
@@ -166,6 +176,17 @@ public class ObservationSlotService {
         opObservationSlot.get().setUpdate();
         observationSlotRepository.save(opObservationSlot.get());
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.UPDATE_SUCCESS, null);
+    }
+
+    public ApiResponse deleteObservationSlotById(Integer slotId) {
+        Optional<ObservationSlot> opObservationSlot = observationSlotRepository.findByIdAndDeleteFlag(slotId, Constants.DELETE_NONE);
+        if (!opObservationSlot.isPresent()) {
+            throw new RecordNotFoundException("Record not found");
+        }
+        ObservationSlot observationSlot = opObservationSlot.get();
+        observationSlot.setDeleteFlag(Constants.DELETE_TRUE);
+        observationSlotRepository.save(observationSlot);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.DELETE_SUCCESS, null);
     }
 
 }

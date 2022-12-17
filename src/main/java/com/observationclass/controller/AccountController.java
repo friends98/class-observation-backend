@@ -23,4 +23,12 @@ public class AccountController {
             , @RequestParam(name = "email") String email) {
         return accountService.listAccountByCampus(campusId, email);
     }
+
+    @GetMapping("/list-account-lecture")
+    public List<DropdownListResponse> listAccountByCampusAndRole(@RequestParam(name = "id") Integer campusId,
+                                                                 @RequestParam(name = "email")String email) {
+        return accountService.listAccountByCampusAndRole(campusId, email);
+    }
+
+
 }

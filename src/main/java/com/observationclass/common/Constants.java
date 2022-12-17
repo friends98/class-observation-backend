@@ -15,6 +15,14 @@ public class Constants {
     public static final Integer DELETE_TRUE = 1;
     public static final Integer DELETE_NONE = 0;
 
+    //Role
+    public static final Integer ROLE_ADMIN=1;
+    public static final Integer ROLE_HEAD_TRAINING=2;
+    public static final Integer ROLE_HEAD_SUBJECT=3;
+    public static final Integer ROLE_HEAD_SUBJECT_PRO=5;
+    public static final Integer ROLE_TEACHER=4;
+
+
     // status
     public static final Integer NEW_PLAN = 0;
     public static final Integer APPROVE = 0;

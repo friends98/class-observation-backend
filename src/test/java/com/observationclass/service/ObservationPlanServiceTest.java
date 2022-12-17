@@ -137,7 +137,7 @@ class ObservationPlanServiceTest {
         List<ObservationSlot> listOfObservationSlot = new ArrayList<>();
         observationPlanRequest.setCampusId(1);
         observationPlanRequest.setSemesterId(1);
-        observationPlanRequest.setDepartmentId(1);
+        //observationPlanRequest.setDepartmentId(1);
         observationPlanRequest.setObservationSlotsRequest(setObservationSlotRequest);
         ObservationSlot observationSlot = new ObservationSlot();
         Semester semester = new Semester();
