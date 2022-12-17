@@ -24,32 +24,26 @@ public class ExcelHelper {
         }
         return false;
     }
-
     public static List<Campus> getCampusDataExcel(InputStream ins) {
         List<Campus> listOfCampus = new ArrayList<>();
         try {
             Workbook workbook = new XSSFWorkbook(ins);
             Sheet sheet = workbook.getSheet(SHEET_CAMPUS);
-
-            Iterator<Row> rows =sheet.iterator();
-            int rowNumber=0;
+            Iterator<Row> rows = sheet.iterator();
+            int rowNumber = 0;
             while (rows.hasNext()) {
-                Row currentRow=rows.next();
+                Row currentRow = rows.next();
                 if (rowNumber == 0) {
                     rowNumber++;
                     continue;
                 }
-                Iterator<Cell> cells=currentRow.iterator();
+                Iterator<Cell> cells = currentRow.iterator();
                 Campus campus = new Campus();
-                Integer cellIndex=0;
+                Integer cellIndex = 0;
                 while (cells.hasNext()) {
-                    Cell currentCell=cells.next();
-                    switch(cellIndex){
+                    Cell currentCell = cells.next();
+                    switch (cellIndex) {
                         case 1:
-                            Integer id = Integer.parseInt(currentCell.getStringCellValue());
-                            campus.setId(id);
-                            break;
-                        case 2:
                             campus.setCampusName(currentCell.getStringCellValue());
                             break;
                     }
@@ -58,8 +52,7 @@ public class ExcelHelper {
                 listOfCampus.add(campus);
                 rowNumber++;
             }
-
-
+            workbook.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

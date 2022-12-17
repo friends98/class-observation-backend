@@ -2,16 +2,21 @@ package com.observationclass.service;
 
 import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
+import com.observationclass.entity.Campus;
 import com.observationclass.entity.Role;
 import com.observationclass.exception.RecordNotFoundException;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
 import com.observationclass.model.response.AccountResponse;
 import com.observationclass.repository.AccountRepository;
+import com.observationclass.repository.CampusRepository;
 import com.observationclass.repository.dao.AccountDao;
+import com.observationclass.utils.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +28,9 @@ public class AdminService {
     private AccountRepository accountRepository;
 
     @Autowired
+    private CampusRepository campusRepository;
+
+    @Autowired
     private AccountDao accountDao;
 
     @Autowired
@@ -31,12 +39,20 @@ public class AdminService {
     @Autowired
     private AccountService accountService;
 
+
+    public ApiResponse uploadCampus(MultipartFile file) throws IOException {
+        List<Campus> listOfCampus = ExcelHelper.getCampusDataExcel(file.getInputStream());
+        System.out.println(listOfCampus.size()+"sizeeeeeee");
+        campusRepository.saveAll(listOfCampus);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+
     public ApiResponse getListAccount() {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, accountRepository.findAllByDeleteFlag(Constants.DELETE_NONE));
     }
 
-    public ApiResponse getAccountByRole(Integer roleId) {
-        List<Object> listAccountByRole = accountDao.listAccountByRole(roleId);
+    public ApiResponse getAccountByRole(Integer roleId,String emailSearch) {
+        List<Object> listAccountByRole = accountDao.listAccountByRole(roleId,emailSearch);
         if (listAccountByRole.isEmpty()) {
 
         }

@@ -17,7 +17,7 @@ import java.util.List;
 public class AccountDao {
     @Autowired
     private EntityManager entityManager;
-    public List<Object> listAccountByRole(Integer roleId) {
+    public List<Object> listAccountByRole(Integer roleId,String emailSearch) {
         List<Object> listAccountResponse = new ArrayList<>();
         Session session = entityManager.unwrap(Session.class);
         StringBuilder sb =new StringBuilder();
@@ -28,7 +28,7 @@ public class AccountDao {
                 "LEFT JOIN account_role accr ON accr.account_id = acc.id\n" +
                 "LEFT JOIN campus campus ON acc.campus_id=campus.id\n" +
                 "LEFT JOIN department department ON department.id=acc.department_id\n" +
-                "WHERE acc.delete_flag=0");
+                "WHERE acc.delete_flag=0 AND acc.email like LOWER (Concat('%',:emailSearch,'%'))");
         if(roleId!=null){
             sb.append(" AND accr.role_id=:roleId");
         }
@@ -36,6 +36,7 @@ public class AccountDao {
         NativeQuery<AccountResponse> query = session.createNativeQuery(sb.toString());
         Utils.addScalr(query,AccountResponse.class);
         query.setParameter("roleId",roleId);
+        query.setParameter("emailSearch", emailSearch);
         session.close();
         listAccountResponse.addAll(query.getResultList());
 

@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -74,8 +75,8 @@ class AdminServiceTest {
         apiResponse.setStatus(Constants.HTTP_CODE_200);
         apiResponse.setMessage(Constants.SUCCESS);
         apiResponse.setItems(listOfAccountByRoleMock);
-        Mockito.when(accountDao.listAccountByRole(1)).thenReturn(listOfAccountByRoleMock);
-        List<Object> listOfAccountByRoleActual = (ArrayList)adminService.getAccountByRole(1).getItems();
+        Mockito.when(accountDao.listAccountByRole(1,"ngoc")).thenReturn(listOfAccountByRoleMock);
+        List<Object> listOfAccountByRoleActual = (ArrayList)adminService.getAccountByRole(1,"ngoc").getItems();
         assertEquals(listOfAccountByRoleMock.size(),listOfAccountByRoleActual.size());
 
     }
@@ -86,8 +87,9 @@ class AdminServiceTest {
         apiResponse.setStatus(Constants.HTTP_CODE_200);
         apiResponse.setMessage(Constants.SUCCESS);
         apiResponse.setItems(listOfAccountByRoleMock);
-        Mockito.when(accountDao.listAccountByRole(anyInt())).thenReturn(listOfAccountByRoleMock);
-        List<Object> listOfAccountByRoleActual = (ArrayList)adminService.getAccountByRole(anyInt()).getItems();
+        Mockito.when(accountDao.listAccountByRole(anyInt(),anyString())).thenReturn(listOfAccountByRoleMock);
+        List<Object> listOfAccountByRoleActual =
+                (ArrayList)adminService.getAccountByRole(anyInt(),anyString()).getItems();
         assertTrue(listOfAccountByRoleActual.isEmpty());
     }
 
