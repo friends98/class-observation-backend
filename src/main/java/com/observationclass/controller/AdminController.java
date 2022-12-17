@@ -6,14 +6,22 @@ import com.observationclass.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
     private AdminService adminService;
+
+    @PostMapping("/upload-campus")
+    public ResponseEntity<ApiResponse> uploadCampus(@RequestParam("file") MultipartFile file) throws IOException {
+        System.out.println(file.getOriginalFilename()+"ddd");
+        return ResponseEntity.ok().body(adminService.uploadCampus(file));
+    }
 
     @GetMapping("/list-all")
     public ResponseEntity<ApiResponse> getListAdmin() {
@@ -36,7 +44,8 @@ public class AdminController {
     }
 
     @GetMapping("/list-account-role")
-    public ResponseEntity<ApiResponse> listAccountByRole(@RequestParam(name = "roleId") Integer roleId) {
-        return ResponseEntity.ok().body(adminService.getAccountByRole(roleId));
+    public ResponseEntity<ApiResponse> listAccountByRole(@RequestParam(name = "roleId") Integer roleId,
+                                                         @RequestParam(name="email")String emailSearch) {
+        return ResponseEntity.ok().body(adminService.getAccountByRole(roleId,emailSearch));
     }
 }
