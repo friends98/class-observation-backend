@@ -113,19 +113,29 @@ class AdminServiceTest {
         accountRequest.setEmail("ngocquang@gmail.com");
         accountRequest.setCampusId(1);
         accountRequest.setUserName("dao ngoc quang");
-
         Account account = new Account();
         account.setUserName(accountRequest.getUserName());
         account.setEmail(accountRequest.getEmail());
         account.setCampusId(accountRequest.getCampusId());
-
-
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
-
         ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
-
         assertThat(apiResponseActual).isNotNull();
     }
+    @Test
+    void testAddNewAccount_WhenEmail_Exits() throws Exception {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setEmail("ngocquang@gmail.com");
+        accountRequest.setCampusId(1);
+        accountRequest.setUserName("dao ngoc quang");
+        Account account = new Account();
+        account.setUserName(accountRequest.getUserName());
+        account.setEmail(accountRequest.getEmail());
+        account.setCampusId(accountRequest.getCampusId());
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
+        ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
+        assertThat(apiResponseActual).isNotNull();
+    }
+
 
     @Test
     void testUpdateAccount_WhenValid() throws Exception {
@@ -139,10 +149,10 @@ class AdminServiceTest {
         roles.add(new Role());
         account.setRoles(roles);
         AccountRequest accountRequest = new AccountRequest();
-
+        accountRequest.setId(1);
 
         Mockito.when(accountRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(account));
-        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(Optional.ofNullable(account).get());
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
         ApiResponse apiResponseActual = adminService.updateAccount(accountRequest);
         assertThat(apiResponseActual).isNotNull();
 
