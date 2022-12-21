@@ -1,22 +1,21 @@
 package com.observationclass.service;
 
 import com.observationclass.common.Constants;
-import com.observationclass.entity.Account;
-import com.observationclass.entity.Campus;
-import com.observationclass.entity.Role;
+import com.observationclass.entity.*;
 import com.observationclass.exception.RecordNotFoundException;
 import com.observationclass.model.ApiResponse;
 import com.observationclass.model.request.AccountRequest;
 import com.observationclass.model.response.AccountResponse;
-import com.observationclass.repository.AccountRepository;
-import com.observationclass.repository.CampusRepository;
+import com.observationclass.repository.*;
 import com.observationclass.repository.dao.AccountDao;
 import com.observationclass.utils.ExcelHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +33,16 @@ public class AdminService {
     private CampusRepository campusRepository;
 
     @Autowired
+    private SemesterRepository semesterRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
+    @Autowired
+    private RoomRepository roomRepository;
+    @Autowired
+    private SlotRepository slotRepository;
+
+    @Autowired
     private AccountDao accountDao;
 
     @Autowired
@@ -42,20 +51,62 @@ public class AdminService {
     @Autowired
     private AccountService accountService;
 
+    public ByteArrayInputStream exportCampus() throws IOException {
+        List<Campus> listOfCampus = campusRepository.findAll();
+        List<Semester> listOfSemester = semesterRepository.findAll();
+        List<Subject> listOfSubject = subjectRepository.findAll();
+        List<Room> listOfRoom = roomRepository.findAll();
+        List<Slot> listOfSlot = slotRepository.findAll();
+        ByteArrayInputStream inputStream = ExcelHelper.exportData(listOfCampus, listOfSemester, listOfRoom,
+                listOfSubject, listOfSlot);
+
+        return inputStream;
+    }
+
+//    public ByteArrayInputStream exportSemester() throws IOException {
+//        List<Semester> semesterList = semesterRepository.findAll();
+//        ByteArrayInputStream inputStream = ExcelHelper.writeSemesterToExcel(semesterList);
+//
+//        return inputStream;
+//    }
 
     public ApiResponse uploadCampus(MultipartFile file) throws IOException {
         List<Campus> listOfCampus = ExcelHelper.getCampusDataExcel(file.getInputStream());
-       // System.out.println(listOfCampus.size()+"sizeeeeeee");
         campusRepository.saveAll(listOfCampus);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
+
+    public ApiResponse uploadSemester(MultipartFile file) throws IOException {
+        List<Semester> listOfSemester = ExcelHelper.getSemesterDataExcel(file.getInputStream());
+        semesterRepository.saveAll(listOfSemester);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+
+    public ApiResponse uploadSubject(MultipartFile file) throws IOException {
+        List<Subject> listOfSubject = ExcelHelper.getSubjectDataExcel(file.getInputStream());
+        subjectRepository.saveAll(listOfSubject);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+
+    public ApiResponse uploadRoom(MultipartFile file) throws IOException {
+        List<Room> listOfRoom = ExcelHelper.getRoomDataExcel(file.getInputStream());
+        roomRepository.saveAll(listOfRoom);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+
+    public ApiResponse uploadSlot(MultipartFile file) throws IOException {
+        List<Slot> listOfSlot = ExcelHelper.getSlotDataExcel(file.getInputStream());
+        slotRepository.saveAll(listOfSlot);
+        return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+    }
+
 
     public ApiResponse getListAccount() {
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, accountRepository.findAllByDeleteFlag(Constants.DELETE_NONE));
     }
 
-    public ApiResponse getAccountByRole(Integer roleId,String emailSearch) {
-        List<Object> listAccountByRole = accountDao.listAccountByRole(roleId,emailSearch);
+    public ApiResponse getAccountByRole(Integer roleId, String emailSearch) {
+        List<Object> listAccountByRole = accountDao.listAccountByRole(roleId, emailSearch);
         if (listAccountByRole.isEmpty()) {
 
         }
@@ -90,13 +141,13 @@ public class AdminService {
         if (opAccount.isEmpty()) {
             throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
         }
-        Account account =opAccount.get();
+        Account account = opAccount.get();
         account.setUserName(accountRequest.getUserName());
         account.setEmail(accountRequest.getEmail());
         account.setCampusId(accountRequest.getCampusId());
         account.setDepartmentId(accountRequest.getDepartmentId());
         List<Role> listOfRole = new ArrayList<>();
-        for(Role  r:accountRequest.getRoles()){
+        for (Role r : accountRequest.getRoles()) {
             listOfRole.add(r);
         }
         account.setRoles(new HashSet<>(listOfRole));
