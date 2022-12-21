@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/auth/google").permitAll()
                 .antMatchers("/api/campus-dropdown-list").permitAll()
+                .antMatchers("/api/admin/download-campus").permitAll()
                 .antMatchers("/api/admin/**").hasAnyAuthority(ERole.ROLE_ADMIN.toString())
                 .antMatchers("/api/headTraining/**").hasAnyAuthority(ERole.ROLE_HEAD_TRAINING.toString())
                 .antMatchers("/api/headSubject/**").hasAnyAuthority(ERole.ROLE_HEAD_SUBJECT.toString())
