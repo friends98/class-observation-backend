@@ -79,6 +79,7 @@ public class ObservationPlanService {
         ObservationPlan observationPlan = new ObservationPlan();
         Optional<Campus> opCampus = campusRepository.findById(observationPlanRequest.getCampusId());
         Optional<Semester> opSemester = semesterRepository.findById(observationPlanRequest.getSemesterId());
+
         Integer departmentId = getDepartmentByAccount(observationPlanRequest.getAccountId());
         Optional<Department> opDepartment = departmentRepository.findByIdAndCampusId(departmentId, observationPlanRequest.getCampusId());
         
@@ -124,10 +125,10 @@ public class ObservationPlanService {
         Optional<Department> opDepartment = departmentRepository.findById(observationPlanUpdateRequest.getDepartmentId());
         Optional<Campus> opCampus = campusRepository.findById(observationPlanUpdateRequest.getCampusId());
         if (opObservationPlan.isEmpty()) {
-            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST+"a");
         }
         if (opSemester.isEmpty() || opDepartment.isEmpty() || opCampus.isEmpty()) {
-            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST+"b");
         }
         opObservationPlan.get().setCampus(opCampus.get());
         opObservationPlan.get().setDepartment(opDepartment.get());
