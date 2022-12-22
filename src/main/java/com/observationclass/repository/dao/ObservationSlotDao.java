@@ -37,7 +37,7 @@ public class ObservationSlotDao {
                 "LEFT JOIN room ON room.id = os.room_id\n" +
                 "LEFT JOIN subject ON subject.id = os.subject_id\n" +
 
-                "WHERE os.plan_id=:planId");
+                "WHERE os.plan_id=:planId ORDER BY os.id ASC");
         NativeQuery<SearchObservationSlotByPlan> query = session.createNativeQuery(sb.toString());
         Utils.addScalr(query,SearchObservationSlotByPlan.class);
         query.setParameter("planId", planId);
@@ -74,7 +74,8 @@ public class ObservationSlotDao {
                 "FROM observation_slot os \n" +
                 "LEFT JOIN observation_plan op ON os.plan_id =op.id\n" +
                 "LEFT JOIN subject s ON s.id =os.subject_id \n" +
-                "WHERE op.semester_id =:semesterId AND os.head_subject =:accountId AND os.delete_flag =0");
+                "WHERE op.semester_id =:semesterId AND os.head_subject =:accountId AND os.delete_flag =0 ORDER BY os" +
+                ".id ASC");
         NativeQuery<SearchObservationSlotResponse> query = session.createNativeQuery(sb.toString());
         Utils.addScalr(query,SearchObservationSlotResponse.class);
         query.setParameter("semesterId", semesterId);

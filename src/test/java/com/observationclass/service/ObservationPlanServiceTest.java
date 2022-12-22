@@ -36,7 +36,7 @@ class ObservationPlanServiceTest {
         ObservationPlan observationPlan = new ObservationPlan();
         observationPlan.setId(1);
         observationPlan.setPlanStatus(1);
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt()))
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt()))
                                                 .thenReturn(Optional.of(observationPlan));
 
         ApiResponse apiResponseActual =observationPlanService.getStatusPlanById(5);
