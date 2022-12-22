@@ -59,7 +59,7 @@ public class ObservationPlanService {
 
     public ApiResponse approveObservationPlan(Integer planId,Integer status){
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository.
-                findByIdAndPlanStatusAndDeleteFlag(planId, Constants.NEW_PLAN, Constants.DELETE_NONE);
+                findByIdAndDeleteFlag(planId, Constants.DELETE_NONE);
         if (opObservationPlan.isEmpty()) {
             throw new RecordNotFoundException("Optinal observation not found!");
         }
@@ -119,8 +119,8 @@ public class ObservationPlanService {
 
     public ApiResponse updateOnlyObservationPlan(ObservationPlanUpdateRequest observationPlanUpdateRequest) {
         Optional<ObservationPlan> opObservationPlan = observationPlanRepository
-                .findByIdAndPlanStatusAndDeleteFlag(observationPlanUpdateRequest
-                        .getId(), Constants.REJECT, Constants.DELETE_NONE);
+                .findByIdAndDeleteFlag(observationPlanUpdateRequest
+                        .getId(), Constants.DELETE_NONE);
         Optional<Semester> opSemester = semesterRepository.findById(observationPlanUpdateRequest.getSemesterId());
         Optional<Department> opDepartment = departmentRepository.findById(observationPlanUpdateRequest.getDepartmentId());
         Optional<Campus> opCampus = campusRepository.findById(observationPlanUpdateRequest.getCampusId());

@@ -22,9 +22,9 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @GetMapping("/download-campus")
+    @GetMapping("/download-data")
     public ResponseEntity<?> downloadCampus() throws IOException {
-        String fileName = "campus_excel.xlsx";
+        String fileName = "class_observation.xlsx";
         InputStreamResource file = new InputStreamResource(adminService.exportCampus());
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
@@ -33,6 +33,10 @@ public class AdminController {
 
     @PostMapping("/upload-campus")
     public ResponseEntity<ApiResponse> uploadCampus(@RequestParam("file") MultipartFile file) throws IOException {
+        String excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if(!file.getContentType().equals(excelContentType)){
+            return ResponseEntity.ok().body(new ApiResponse(Constants.HTTP_CODE_400, "Content type is invalid", null));
+        }
         return ResponseEntity.ok().body(adminService.uploadCampus(file));
     }
 

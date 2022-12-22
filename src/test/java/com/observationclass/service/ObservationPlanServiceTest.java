@@ -63,9 +63,9 @@ class ObservationPlanServiceTest {
         ObservationPlan observationPlan = new ObservationPlan();
         observationPlan.setId(1);
         observationPlan.setPlanStatus(1);
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt()))
-                .thenReturn(Optional.of(observationPlan));
 
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt()))
+                                                .thenReturn(Optional.of(observationPlan));
         ApiResponse apiResponseActual = observationPlanService.getStatusPlanById(5);
         System.out.println(apiResponseActual.toString());
         Integer planStatus = (Integer) apiResponseActual.getItems();
@@ -80,7 +80,7 @@ class ObservationPlanServiceTest {
         observationPlan.setId(1);
         observationPlan.setDeleteFlag(0);
         observationPlan.setPlanStatus(0);
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
         ApiResponse apiResponse = observationPlanService.approveObservationPlan(1, 1);
         assertThat(apiResponse.getItems()).isEqualTo(null);
     }
@@ -91,7 +91,7 @@ class ObservationPlanServiceTest {
         observationPlan.setId(1);
         observationPlan.setDeleteFlag(0);
         observationPlan.setPlanStatus(0);
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
         ApiResponse apiResponse = observationPlanService.approveObservationPlan(observationPlan.getId(), 2);
         assertThat(apiResponse.getItems()).isEqualTo(null);
     }
@@ -102,7 +102,7 @@ class ObservationPlanServiceTest {
         observationPlan.setId(1);
         observationPlan.setDeleteFlag(0);
         observationPlan.setPlanStatus(0);
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt())).thenReturn(Optional.of(observationPlan));
         ApiResponse apiResponse = observationPlanService.approveObservationPlan(observationPlan.getId(), 8);
         assertThat(apiResponse.getItems()).isEqualTo(null);
     }
@@ -175,7 +175,7 @@ class ObservationPlanServiceTest {
         Mockito.when(semesterRepository.findById(anyInt())).thenReturn(Optional.ofNullable(semester));
         Mockito.when(campusRepository.findById(anyInt())).thenReturn(Optional.ofNullable(campus));
         Mockito.when(departmentRepository.findById(anyInt())).thenReturn(Optional.ofNullable(department));
-        Mockito.when(observationPlanRepository.findByIdAndPlanStatusAndDeleteFlag(anyInt(), anyInt(), anyInt())).thenReturn(Optional.ofNullable(observationPlan));
+        Mockito.when(observationPlanRepository.findByIdAndDeleteFlag(anyInt(), anyInt())).thenReturn(Optional.ofNullable(observationPlan));
         Mockito.when(observationPlanRepository.save(Mockito.any(ObservationPlan.class))).thenReturn(observationPlan);
         ApiResponse apiResponse = observationPlanService.updateOnlyObservationPlan(observationPlanUpdateRequest);
         assertThat(apiResponse).isNotNull();
