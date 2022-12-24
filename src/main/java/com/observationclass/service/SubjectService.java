@@ -2,7 +2,9 @@ package com.observationclass.service;
 
 import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
+import com.observationclass.entity.Subject;
 import com.observationclass.exception.RecordNotFoundException;
+import com.observationclass.model.ApiResponse;
 import com.observationclass.model.response.DropdownListResponse;
 import com.observationclass.repository.AccountRepository;
 import com.observationclass.repository.SubjectRepository;
@@ -20,6 +22,14 @@ public class SubjectService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    public ApiResponse listAllSubjectByCampus(Integer campusId) {
+        List<Subject> listSubject = subjectRepository.findAllByCampus(campusId);
+        if (listSubject == null) {
+            throw new RecordNotFoundException(Constants.RECORD_DOES_NOT_EXIST);
+        }
+        return new ApiResponse(Constants.HTTP_CODE_200,Constants.SUCCESS,listSubject);
+    }
 
     public List<DropdownListResponse> getSubjectDropdownList(Integer accountId, String subName) {
         Integer departmentId = getDepartmentIdByAccount(accountId);
