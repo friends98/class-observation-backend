@@ -42,21 +42,37 @@ public class AdminController {
 
     @PostMapping("/upload-semester")
     public ResponseEntity<ApiResponse> uploadSemester(@RequestParam("file") MultipartFile file) throws IOException {
+        String excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if(!file.getContentType().equals(excelContentType)){
+            return ResponseEntity.ok().body(new ApiResponse(Constants.HTTP_CODE_400, "Content type is invalid", null));
+        }
         return ResponseEntity.ok().body(adminService.uploadSemester(file));
     }
 
     @PostMapping("/upload-subject")
     public ResponseEntity<ApiResponse> uploadSubject(@RequestParam("file") MultipartFile file) throws IOException {
+        String excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if(!file.getContentType().equals(excelContentType)){
+            return ResponseEntity.ok().body(new ApiResponse(Constants.HTTP_CODE_400, "Content type is invalid", null));
+        }
         return ResponseEntity.ok().body(adminService.uploadSubject(file));
     }
 
     @PostMapping("/upload-room")
     public ResponseEntity<ApiResponse> uploadRoom(@RequestParam("file") MultipartFile file) throws IOException {
+        String excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if(!file.getContentType().equals(excelContentType)){
+            return ResponseEntity.ok().body(new ApiResponse(Constants.HTTP_CODE_400, "Content type is invalid", null));
+        }
         return ResponseEntity.ok().body(adminService.uploadRoom(file));
     }
 
     @PostMapping("/upload-slot")
     public ResponseEntity<ApiResponse> uploadSlot(@RequestParam("file") MultipartFile file) throws IOException {
+        String excelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        if(!file.getContentType().equals(excelContentType)){
+            return ResponseEntity.ok().body(new ApiResponse(Constants.HTTP_CODE_400, "Content type is invalid", null));
+        }
         return ResponseEntity.ok().body(adminService.uploadSlot(file));
     }
 

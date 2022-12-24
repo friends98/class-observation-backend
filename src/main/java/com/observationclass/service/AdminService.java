@@ -72,30 +72,45 @@ public class AdminService {
 
     public ApiResponse uploadCampus(MultipartFile file) throws IOException {
         List<Campus> listOfCampus = ExcelHelper.getCampusDataExcel(file.getInputStream());
+        if (listOfCampus.size() == 0) {
+            return new ApiResponse(Constants.HTTP_CODE_400, Constants.RECORD_DOES_NOT_EXIST, null);
+        }
         campusRepository.saveAll(listOfCampus);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
     public ApiResponse uploadSemester(MultipartFile file) throws IOException {
         List<Semester> listOfSemester = ExcelHelper.getSemesterDataExcel(file.getInputStream());
+        if (listOfSemester.size() == 0) {
+            return new ApiResponse(Constants.HTTP_CODE_400, Constants.RECORD_DOES_NOT_EXIST, null);
+        }
         semesterRepository.saveAll(listOfSemester);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
     public ApiResponse uploadSubject(MultipartFile file) throws IOException {
         List<Subject> listOfSubject = ExcelHelper.getSubjectDataExcel(file.getInputStream());
+        if (listOfSubject.size() == 0) {
+            return new ApiResponse(Constants.HTTP_CODE_400, Constants.RECORD_DOES_NOT_EXIST, null);
+        }
         subjectRepository.saveAll(listOfSubject);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
     public ApiResponse uploadRoom(MultipartFile file) throws IOException {
         List<Room> listOfRoom = ExcelHelper.getRoomDataExcel(file.getInputStream());
+        if (listOfRoom.size() == 0) {
+            return new ApiResponse(Constants.HTTP_CODE_400, Constants.RECORD_DOES_NOT_EXIST, null);
+        }
         roomRepository.saveAll(listOfRoom);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }
 
     public ApiResponse uploadSlot(MultipartFile file) throws IOException {
         List<Slot> listOfSlot = ExcelHelper.getSlotDataExcel(file.getInputStream());
+        if (listOfSlot.size() == 0) {
+            return new ApiResponse(Constants.HTTP_CODE_400, Constants.RECORD_DOES_NOT_EXIST, null);
+        }
         slotRepository.saveAll(listOfSlot);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }

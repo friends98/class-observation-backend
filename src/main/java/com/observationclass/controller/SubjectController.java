@@ -17,8 +17,8 @@ public class SubjectController {
     private SubjectService subjectService;
 
     @GetMapping("/subject-dropdown-list")
-    public List<DropdownListResponse> subjectDropdownList(@RequestParam(name = "id") Integer campusId
+    public List<DropdownListResponse> subjectDropdownList(@RequestParam(name = "id") Integer accountId
             , @RequestParam(name = "code") String subName) {
-        return subjectService.getSubjectDropdownList(campusId, subName);
+        return subjectService.getSubjectDropdownList(accountId, subName);
     }
 }

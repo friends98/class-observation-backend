@@ -38,11 +38,6 @@ class AdminServiceTest {
     private AdminService adminService;
     @Mock
     private AccountService accountService;
-
-
-
-
-
     private Account account;
     private Role role;
     @BeforeEach
@@ -92,15 +87,31 @@ class AdminServiceTest {
                 (ArrayList)adminService.getAccountByRole(anyInt(),anyString()).getItems();
         assertTrue(listOfAccountByRoleActual.isEmpty());
     }
-
-
-
     @Test
     void testDeleteAccountById() throws Exception {
         Account account = new Account();
         account.setId(1);
         account.setDeleteFlag(0);
-
+        Mockito.when(accountRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(account));
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
+        ApiResponse apiResponseActual = adminService.deleteAccountById(account.getId());
+        assertThat(apiResponseActual).isNotNull();
+    }
+    @Test
+    void testDeleteAccountById_WhenNonExist() throws Exception {
+        Account account = new Account();
+        account.setId(1);
+        account.setDeleteFlag(0);
+        Mockito.when(accountRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(account));
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
+        ApiResponse apiResponseActual = adminService.deleteAccountById(account.getId());
+        assertThat(apiResponseActual).isNotNull();
+    }
+    @Test
+    void testDeleteAccountById_WhenInvalid() throws Exception {
+        Account account = new Account();
+        account.setId(1);
+        account.setDeleteFlag(0);
         Mockito.when(accountRepository.findByIdAndDeleteFlag(anyInt(),anyInt())).thenReturn(Optional.ofNullable(account));
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
         ApiResponse apiResponseActual = adminService.deleteAccountById(account.getId());
@@ -108,9 +119,9 @@ class AdminServiceTest {
     }
 
     @Test
-    void testAddNewAccount_WhenEmail_NotExits() throws Exception {
+    void testAddNewAccount_WhenEmail_AndCampusNotExits() throws Exception {
         AccountRequest accountRequest = new AccountRequest();
-        accountRequest.setEmail("ngocquang@gmail.com");
+        accountRequest.setEmail("aaaaa@gmail.com");
         accountRequest.setCampusId(1);
         accountRequest.setUserName("dao ngoc quang");
         Account account = new Account();
@@ -126,7 +137,6 @@ class AdminServiceTest {
         AccountRequest accountRequest = new AccountRequest();
         accountRequest.setEmail("ngocquang@gmail.com");
         accountRequest.setCampusId(1);
-        accountRequest.setUserName("dao ngoc quang");
         Account account = new Account();
         account.setUserName(accountRequest.getUserName());
         account.setEmail(accountRequest.getEmail());
@@ -135,12 +145,21 @@ class AdminServiceTest {
         ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
         assertThat(apiResponseActual).isNotNull();
     }
-
-
+    @Test
+    void testAddNewAccount_WhenEmail_CampusExist() throws Exception {
+        AccountRequest accountRequest = new AccountRequest();
+        accountRequest.setEmail("ngocquang@gmail.com");
+        accountRequest.setCampusId(1);
+        Account account = new Account();
+        account.setUserName(accountRequest.getUserName());
+        account.setEmail(accountRequest.getEmail());
+        account.setCampusId(accountRequest.getCampusId());
+        Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
+        ApiResponse apiResponseActual = adminService.addNewAccount(accountRequest);
+        assertThat(apiResponseActual).isNotNull();
+    }
     @Test
     void testUpdateAccount_WhenValid() throws Exception {
-
-
         Account account = new Account();
         account.setId(1);
         account.setCampusId(1);
@@ -168,6 +187,4 @@ class AdminServiceTest {
         adminService.setAccount(account,accountRequest);
         assertThat(account);
     }
-
-
 }

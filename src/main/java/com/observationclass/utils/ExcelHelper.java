@@ -20,7 +20,7 @@ public class ExcelHelper {
     static String[] HEADER_CAMPUS = {"Id", "Campus Name"};
     static String[] HEADER_SEMESTER = {"Id", "Semester Name", "Start Date", "End Date"};
     static String[] HEADER_ROOM = {"Id", "Room Name", "Campus"};
-    static String[] HEADER_SUBJECT = {"Id", "Subject Name", "Department", "Campus"};
+    static String[] HEADER_SUBJECT = {"Id", "Subject Code", "Subject Name", "Department"};
     static String[] HEADER_SLOT = {"Id", "Slot Name", "Slot Time Range"};
     static String SHEET_CAMPUS = "campus";
     static String SHEET_SEMESTER = "semester";
@@ -89,7 +89,7 @@ public class ExcelHelper {
             row.createCell(0).setCellValue((subjectId));
             row.createCell(1).setCellValue(subject.getSubjectCode());
             row.createCell(2).setCellValue(subject.getSubject_name());
-            Double campusId = new Double(subject.getCampusId());
+            Double campusId = new Double(subject.getDepartmentId());
             row.createCell(3).setCellValue(campusId);
         }
     }
@@ -258,8 +258,8 @@ public class ExcelHelper {
                         subject.setSubject_name(cellCurrent.getStringCellValue());
                         break;
                     case 3:
-                        Double campusId = new Double(cellCurrent.getNumericCellValue());
-                        subject.setCampusId(campusId.intValue());
+                        Double departmentId = new Double(cellCurrent.getNumericCellValue());
+                        subject.setDepartmentId(departmentId.intValue());
                         break;
                 }
                 cellIndex++;

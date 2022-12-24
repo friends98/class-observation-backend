@@ -25,6 +25,6 @@ public class Subject {
     @Column(name="subject_name")
     private String subject_name;
 
-    @Column(name="campus_id")
-    private Integer campusId;
+    @Column(name="department_id")
+    private Integer departmentId;
 }
