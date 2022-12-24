@@ -13,6 +13,6 @@ public interface CriteriaRepository extends JpaRepository<Criteria, Integer> {
 
     Optional<Criteria> findByIdAndDeleteFlag(Integer id, Integer deleteFlag);
 
-    @Query(value = "SELECT * FROM criteria WHERE delete_flag=:deleteFlag ORDER BY criteria_code ASC", nativeQuery = true)
+    @Query(value = "SELECT * FROM criteria WHERE delete_flag=:deleteFlag ORDER BY id ASC", nativeQuery = true)
     List<Criteria> findAllByDeleteFlag(Integer deleteFlag);
 }

@@ -57,7 +57,7 @@ class SubjectServiceTest {
         List<DropdownListResponse> listOfSubject = new ArrayList<>();
         listOfSubject.add(new obj());
 
-        Mockito.when(subjectRepository.findAllAndCampusId(anyInt(), anyString())).thenReturn(listOfSubject);
+        Mockito.when(subjectRepository.findAllAndAndDepartmentId(anyInt(), anyString())).thenReturn(listOfSubject);
         List<DropdownListResponse>listOfSubjectActual =subjectService.getSubjectDropdownList(1,"Pro");
         assertEquals(1,listOfSubjectActual.size());
     }

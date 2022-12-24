@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -36,6 +38,15 @@ class AccountServiceTest {
         Mockito.when(accountRepository.findByEmailAndDeleteFlag(email,0)).thenReturn(Optional.of(account));
         Account account1 = accountService.getAccountByEmail(email);
         assertEquals(account,account1);
+    }
+    @Test
+    void testGetAccountByEmail_NotExist() {
+        String email="quang41096@fpt.edu.vn";
+        Account account = new Account();
+        Account accountTest = new Account();
+        Mockito.when(accountRepository.findByEmailAndDeleteFlag(email,0)).thenReturn(Optional.of(account));
+        Account account1 = accountService.getAccountByEmail(email);
+        assertEquals(account.getEmail(),null);
     }
     @Test
     void testcheckEmailExist() {
@@ -84,9 +95,6 @@ class AccountServiceTest {
         }
         lstAccountByCampusId2.add(new obj());
         lstAccountByCampusId2.add(new obj());
-
-
-
         Mockito.when(accountRepository.findAllByCampusAndDelete(1,email,0)).thenReturn(lstAccountByCampusId2);
         List<DropdownListResponse> lstAccountByCampusId = accountService.listAccountByCampus(1, email);
         assertEquals(2,lstAccountByCampusId.size());
@@ -99,5 +107,42 @@ class AccountServiceTest {
         Mockito.when(accountRepository.findAllByCampusAndDelete(1,email,0)).thenReturn(lstAccountByCampusId1);
         List<DropdownListResponse> lstAccountByCampusId = accountService.listAccountByCampus(1, email);
         assertEquals(0,lstAccountByCampusId.size());
+    }
+
+    @Test
+    void testAccount_WithSearchEmail() {
+        Integer campusId=1;
+        String email="ngoc";
+        List<Object> lstAccountByCampusId1 = new ArrayList<>();
+        List<DropdownListResponse> lstAccountByCampusId2 = new ArrayList<>();
+        lstAccountByCampusId1.add(new Object());
+        lstAccountByCampusId1.add(new Object());
+        class obj implements DropdownListResponse{
+
+            @Override
+            public Integer getValue() {
+                return null;
+            }
+
+            @Override
+            public Integer setValue(Integer value) {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+
+            @Override
+            public String setName() {
+                return null;
+            }
+        }
+        lstAccountByCampusId2.add(new obj());
+        lstAccountByCampusId2.add(new obj());
+        Mockito.when(accountRepository.findAllByCampusAndDelete(1,email,0)).thenReturn(lstAccountByCampusId2);
+        List<DropdownListResponse> lstAccountByCampusId = accountService.listAccountByCampus(1, email);
+        assertEquals(2,lstAccountByCampusId.size());
     }
 }
