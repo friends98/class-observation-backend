@@ -32,7 +32,7 @@ class AccountServiceTest {
 
     @Test
     void testGetAccountByEmail_WhenExist() {
-        String email="quang41096@fpt.edu.vn";
+        String email="quangdn141096@fpt.edu.vn";
         Account account = new Account();
         account.setEmail(email);
         Mockito.when(accountRepository.findByEmailAndDeleteFlag(email,0)).thenReturn(Optional.of(account));
@@ -41,7 +41,7 @@ class AccountServiceTest {
     }
     @Test
     void testGetAccountByEmail_NotExist() {
-        String email="quang41096@fpt.edu.vn";
+        String email="quang41096@gmail.com";
         Account account = new Account();
         Account accountTest = new Account();
         Mockito.when(accountRepository.findByEmailAndDeleteFlag(email,0)).thenReturn(Optional.of(account));

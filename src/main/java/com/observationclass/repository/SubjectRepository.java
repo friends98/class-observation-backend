@@ -17,5 +17,10 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
             "LOWER (s.subject_name)" +
             "like LOWER (Concat('%',:subName,'%'))", nativeQuery = true)
     List<DropdownListResponse> findAllAndAndDepartmentId(Integer departmentId,String subName);
+        @Query(value="SELECT *\n" +
+            "FROM subject s \n" +
+            "LEFT JOIN department d ON s.department_id =d.id \n" +
+            "WHERE d.campus_id =:campusId",nativeQuery = true)
+    List<Subject> findAllByCampus(Integer campusId);
 
 }
