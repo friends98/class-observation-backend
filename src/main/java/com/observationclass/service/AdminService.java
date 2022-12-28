@@ -142,10 +142,26 @@ public class AdminService {
     public ApiResponse addNewAccount(AccountRequest accountRequest) {
         Account account = new Account();
         String email = accountRequest.getEmail();
-        if (!accountService.checkEmailExist(email)) {
+        if (accountService.checkEmailExist(email)) {
+            Optional<Account> optionalAccount=accountRepository.findByEmail(email);
+            optionalAccount.get().setUserName(accountRequest.getUserName());
+            optionalAccount.get().setCampusId(accountRequest.getCampusId());
+            optionalAccount.get().setDepartmentId(accountRequest.getDepartmentId());
+            List<Role> listOfRole = new ArrayList<>();
+            for (Role r : accountRequest.getRoles()) {
+                listOfRole.add(r);
+            }
+            optionalAccount.get().setRoles(new HashSet<>(listOfRole));
+            System.out.println(listOfRole.size());
+            optionalAccount.get().setDeleteFlag(Constants.DELETE_NONE);
+            accountRepository.save(optionalAccount.get());
+            return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
+        }
+
+        //if (!accountService.checkEmailExist(email)) {
             setAccount(account, accountRequest);
             account.setCreate();
-        }
+        //}
         accountRepository.save(account);
         return new ApiResponse(Constants.HTTP_CODE_200, Constants.CREATE_SUCCESS, null);
     }

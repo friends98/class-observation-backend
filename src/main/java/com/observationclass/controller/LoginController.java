@@ -6,6 +6,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.observationclass.common.Constants;
 import com.observationclass.entity.Account;
+import com.observationclass.entity.Role;
 import com.observationclass.exception.RecordNotFoundException;
 import com.observationclass.model.AuthResponse;
 import com.observationclass.model.TokenRequest;
@@ -51,9 +52,18 @@ public class LoginController {
             return ResponseEntity.ok().body(new AuthResponse(null,null,null,null,null));
         }
         Account account = accountService.getAccountByEmail(email);
-        if (account.getCampusId() != token.getCampusId()) {
-            return ResponseEntity.ok().body(new AuthResponse(account.getUserName(),null,null,account.getId(),
+        if (account.getCampusId() != token.getCampusId() && token.getCampusId() != null) {
+            return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), null, null, account.getId(),
                     account.getRoles()));
+        }
+        if (token.getCampusId() == null) {
+            for (Role role : account.getRoles()) {
+                if (role.getId() != 1) {
+                    //String accessToken = jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
+                    return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), null, null, account.getId(),
+                            account.getRoles()));
+                }
+            }
         }
         String accessToken = jwtTokenUtils.generateJwtToken(String.valueOf(account.getId()));
         return ResponseEntity.ok().body(new AuthResponse(account.getUserName(), accessToken, account.getCampusId(),account.getId(), account.getRoles()));
