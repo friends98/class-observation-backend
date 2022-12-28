@@ -30,7 +30,7 @@ public class AccountDao {
                 "LEFT JOIN department department ON department.id=acc.department_id\n" +
                 "WHERE acc.delete_flag=0 AND acc.email like LOWER (Concat('%',:emailSearch,'%'))");
         if(roleId!=null){
-            sb.append(" AND accr.role_id=:roleId");
+            sb.append(" AND accr.role_id=:roleId ORDER BY acc.id ASC");
         }
         @SuppressWarnings("unchecked")
         NativeQuery<AccountResponse> query = session.createNativeQuery(sb.toString());
