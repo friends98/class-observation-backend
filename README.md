@@ -1,4 +1,4 @@
 #class-observation-backend
-''' shell
-curl helloworld.java
-'''
+```shell
+curl -X POST http://localhost:8080/admin/start -H "Content-Type: application/json" -d '{"taskName":"sample-one-time-task"}'
+```
